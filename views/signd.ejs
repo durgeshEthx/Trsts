@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Data</title>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+	<link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<center>
+		<!--Grid row-->
+
+		1<!-- <div class="col-sm-6 col-md-6">
+				<div class="alert alert-success">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+						×</button>
+				   <span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>
+					<hr class="message-inner-separator">
+					<p>
+						You successfully read this important alert message.</p>
+				</div>
+			</div> -->
+		<div class="row d-flex justify-content-center">
+
+			<!--Grid column-->
+			<div class="col-md-6">
+
+				<!-- <div id="wrapper"> -->
+				<!-- <div class="col" id="droppable"></div> -->
+				<!-- <div class="col" id="col1"> -->
+				<div id="drag-list" class="drag-list">
+					<ul class="list-inline">
+							<li><span id="drag2" class="drag">
+									<img src="ui/img/sign.jpeg" width="20px" height="20px" />
+									Signature
+									<!--  -->
+								</span>
+							</li>
+						<li><span id="drag2" class="drag" id="openForm">
+								<img src="ui/img/sign.jpeg" width="20px" height="20px" />
+								Signature
+								<!--  -->
+							</span>
+						</li>
+						<li><span id="drag3" class="drag">
+								<img src="ui/img/name.png" width="20px" height="20px" />
+								Initals
+								<!-- <img src="http://placehold.it/80x80/00810C/fff&text=3" width="100%" height="100%" /> -->
+							</span>
+						</li>
+						<li>
+							<span id="drag4" class="drag">
+									<img src="ui/img/date.png" width="20px" height="20px" />
+								Date
+								<!-- <img src="http://placehold.it/80x80/00810C/fff&text=3" width="100%" height="100%" /> -->
+							</span>
+						</li>
+					</ul>
+				</div>
+				<!-- </div> -->
+				<!-- </div> -->
+
+
+
+				<!-- <ul class="list-inline">
+			<li class="draggable">
+					Name
+				</li>
+			<li class="list-inline-item">Signature</li>
+			<li class="list-inline-item">Initials</li>
+			<li class="list-inline-item">Date</li>
+		</ul> -->
+
+				<div class="col" id="droppable">
+					<!-- <h1><%= imgname %></h1> -->
+					<!-- <img id="img0" src="data:image/png;base64,\"imgbas64 \""  alt="\"imgbas64 \""/> -->
+					<img id="i" src="<%=imgpath%>" />
+
+				</div>
+
+			</div>
+			<!--Grid column-->
+
+		</div>
+		<!-- Modal content-->
+        <!-- <div class="modal-content">
+				<div class="modal-header">
+				  <button type="button" class="close" id="closeForm" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+				  <form id="contactusform" action='/contactus' method="POST">
+					<div class="form-group">
+					  <label for="companyName">Company Name</label>
+					  <input type="text" class="form-control" id="companyName" placeholder="Enter company name" name="companyName">
+					</div>
+					
+				  </form>
+				</div>
+			  </div>
+			   -->
+			</div>
+		  </div>
+		
+	</center>
+	<script>
+		//$('.alert').alert();
+		//document.getElementById('i').src='/images'+imgname;
+		//console.log('imagename '+imgname);
+		var x = null;
+		//Make element draggable
+		$(".drag").draggable({
+			helper: 'clone',
+			cursor: 'move',
+			tolerance: 'fit',
+			revert: true
+		});
+
+		$("#droppable").droppable({
+			accept: '.drag',
+			activeClass: "drop-area",
+			drop: function (e, ui) {
+				if ($(ui.draggable)[0].id != "") {
+
+
+					x = ui.helper.clone();
+					ui.helper.remove();
+					x.draggable({
+						helper: 'original',
+						cursor: 'move',
+						//containment: '#droppable',
+						tolerance: 'fit',
+						drop: function (event, ui) {
+							$(ui.draggable).remove();
+						}
+					});
+                    
+					x.resizable({
+						maxHeight: $('#droppable').height(),
+						maxWidth: $('#droppable').width()
+					});
+					x.addClass('remove');
+					var el = $("<span><a href='Javascript:void(0)' class=\"xicon delete\" title=\"Remove\">X</a></span>");
+					$(el).insertAfter($(x.find('img')));
+					x.appendTo('#droppable');
+					$('.delete').on('click', function () {
+						$(this).parent().parent('span').remove();
+					});
+					$('.delete').parent().parent('span').dblclick(function () {
+						$(this).remove();
+					});
+				}
+			}
+		});
+
+		$("#remove-drag").droppable({
+			drop: function (event, ui) {
+				$(ui.draggable).remove();
+			},
+			hoverClass: "remove-drag-hover",
+			accept: '.remove'
+		});
+
+
+// 		$("#openForm").click(function(event){
+//     event.preventDefault();
+//     $("#form").show();
+//     $("html body").css('overflow','hidden');
+//   });
+//   $("#closeForm").click(function(){
+//     $("#form").hide();
+//     $("html body").css('overflow','auto');
+//   });
+
+	</script>
+
+	<!--Grid row-->
+</body>
+
+</html>
