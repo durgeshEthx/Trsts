@@ -141,13 +141,16 @@ router.get('/dashboard', function (req, res) {
 	// res.render('dashboard.ejs');
 	p('your comapny '+req.query.companyname);
 	p('role '+req.query.role);
+	var username;
+
 	if(req.query.companyname != undefined && req.query.role != undefined){
- 
-		
+
+		p('inside company');
 	User.findOne({email:req.session.email},function(err,data){
 		if(data){
 			
-			
+			username = data.fullname;
+			p('un '+username);
 			userdetail.findOne({uid:data._id},function(err,userd){
 				p('inside get');
 			p(req.session.email);
@@ -160,15 +163,24 @@ router.get('/dashboard', function (req, res) {
 						p(res);
 					}
 				});
-				res.render('dashboard.ejs',{email_verified:1,slick:1});
+				res.render('dashboard.ejs',{un:username,email_verified:1,slick:1});
 			});
 		}else{
 			
-			res.render('dashboard.ejs',{email_verified:1,slick:0});
+			res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
 		}
 	});
 }else{
-	res.render('dashboard.ejs',{email_verified:1,slick:0});
+	p('session '+req.session.email)
+	User.findOne({email:req.session.email},function(err,data){
+		if(data){
+			username = data.fullname;
+			p('user '+ username);
+		}
+		res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
+	});
+	p('else');
+	
 }
 	
 });
@@ -201,18 +213,34 @@ router.post('/dashboard', function (req, res) {
 				});
 			});
 			// if(data.email_verified == 1){
-				res.render('dashboard.ejs',{email_verified:1});
+				res.render('dashboard.ejs',{un:data.fullname,email_verified:data.email_verified});
 			// }
 			
-		}
+			}
 	});
 
-	res.render('dashboard.ejs',{email_verified:1});
+	//res.render('dashboard.ejs',{email_verified:1});
 });
 router.get('/plans', function (req, res) {
 	const country = req.body.country;
 	console.log('c' + country);
-	res.render('plans.ejs', { country: country });
+	var currency;
+	User.findOne({email:req.session.email},function(err,data){
+		if(data){
+			var uid = data._id;
+			userdetail.findOne({uid:uid},function(err,userde){
+				if(userde){
+					currency = userde.currency;
+					res.render('plans.ejs', {country:currency});
+				}else{
+
+				}
+			});
+		}else{
+
+		}
+	});
+	
 });
 router.get('/verify', function (req, res) {
 	console.log(req.query.id + "&" + '');
@@ -246,10 +274,10 @@ router.get('/login', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 	console.log(req.body);
-
+p('inside login');
 	User.findOne({ email: req.body.email }, function (err, data) {
 		if (data) {
-
+			if(data.email_verified == 1){
 			if (data.password == req.body.password) {
 				//console.log("Done Login");
 				req.session.userId = data.unique_id;
@@ -259,7 +287,11 @@ router.post('/login', function (req, res, next) {
 
 			} else {
 				res.send({ "Success": "Wrong password!" });
-			}
+			}//
+		}else{
+			res.send({'verified':'0'});
+		}
+
 		} else {
 			res.send({ "Success": "This Email Is not regestered!" });
 		}
@@ -299,9 +331,10 @@ router.get('/profile', function (req, res, next) {
 		//	console.log(data);
 		if (!data) {
 			res.redirect('/');
+			
 		} else {
 			//console.log("found");
-			return res.render('new_document.ejs', { "name": data.username, "email": data.email });
+			return res.render('new_document.ejs', {un: data.fullname, email: data.email });
 		}
 	});
 });

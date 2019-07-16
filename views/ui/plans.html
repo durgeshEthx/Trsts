@@ -232,8 +232,11 @@ body:not(:-moz-handler-blocked) fieldset {
                   </div>
                   <div class="plan-body">
                     <div class="plan-price-w">
-                      <div class="price-value">
+                      <div class="price-value" id="dollor0">
                         $0
+                      </div>
+                      <div class="price-value" id="rupee0">
+                        &#x20b9 0
                       </div>
                       <div class="price-label">
                         per month
@@ -288,18 +291,19 @@ body:not(:-moz-handler-blocked) fieldset {
                         $20
                       </div>
                       <div class="price-value" id="doller25" style="display: none">
-                        <!-- <%=country%> -->
+                        $25
                       </div>
-                      <div class="price-value" id="rupee20" style="display: none" value="<%=country%>">
-                        &#x20b9 20
+                      <div class="price-value" id="rupee20" style="display: none">
+                        &#x20b9 1500
                       </div>
                       <div class="price-value" id="rupee25" style="display: none">
-                        &#x20b9 25
+                        &#x20b9 1750
                       </div>
                       <div class="price-label">
                         Per Month
                       </div>
                     </div>
+                    <input type="hidden" value="<%=country%>" id="countryval" >
                     <div class="plan-btn-w">
                       <!-- <a class="btn btn-primary btn-rounded"  type="submit">Free Trial</a> -->
                       <!-- <button  class="btn btn-primary btn-rounded" type="submit" >Free Trial</button> -->
@@ -361,13 +365,13 @@ body:not(:-moz-handler-blocked) fieldset {
                         $50
                       </div>
                       <div class="price-value" style="display:none" id="doller55">
-                        $55
+                        $60
                       </div>
                       <div class="price-value" style="display:none" id="rupee55">
-                        &#x20b9 55
+                        &#x20b9 4200
                       </div>
                       <div class="price-value" style="display:none" id="rupee50">
-                        &#x20b9 50
+                        &#x20b9 3500
                       </div>
                       <div class="price-label">
                         Per Month
@@ -566,7 +570,33 @@ body:not(:-moz-handler-blocked) fieldset {
     <script>
 
 $(document).ready(function(){
+  if($("#countryval").val() =='INR'){
+    $("#doller20").hide();
+    $("#doller25").hide();
+    $("#doller50").hide();
+    $("#doller55").hide();
+    $('#rupee20').show();
+    $('#rupee50').show();
+    $('#dollor0').hide();
+    $('#rupee0').show();
+    }else{
+      console.log($("#countryval").val());
+    $("#doller20").show();
+    $("#doller25").hide();
+    $("#doller50").show();
+    $("#doller55").hide();
+    $('#rupee25').hide();
+    $('#rupee55').hide();
+    $('#dollor0').show();
+    $('#rupee0').hide();
+
+    }
+
+
+
    $(document).on("click",".login-button",function(){
+    
+
      var form = $(this).closest("form");
      //console.log(form);
      $('#plan-name').val('Free');
@@ -610,34 +640,66 @@ var form = $(this).closest("form");
     event.preventDefault();
     $("#form").show();
     $("html body").css('overflow','hidden');
+    $('.all-wrapper.no-padding-content.white-bg-content.solid-bg-all').css('opacity','0.5');
+    $('.modal-content').css('position','absolute');
+   
   });
   $("#closeForm").click(function(){
     $("#form").hide();
     $("html body").css('overflow','auto');
+    $('.all-wrapper.no-padding-content.white-bg-content.solid-bg-all').css('opacity','');
   });
   $("#sizeWeight").click(function(){
-    // if($("#rupee20").val =='IN'){
-    // $("#doller20").hide();
-    // $("#doller25").hide();
-    // $("#doller50").hide();
-    // $("#doller55").hide();
-    // $('#rupee25').show();
-    // $('#rupee55').show();
-    // }else{
+    if($("#countryval").val() =='INR'){
+    $("#doller20").hide();
+    $("#doller25").hide();
+    $("#doller50").hide();
+    $("#doller55").hide();
+    $('#rupee25').show();
+    $('#rupee55').show();
+    $("#rupee20").hide();
+    $('#rupee50').hide();
+    $('#dollor0').hide();
+    $('#rupee0').show();
+
+    }else{
+      console.log($("#countryval").val());
     $("#doller20").hide();
     $("#doller25").show();
     $("#doller50").hide();
     $("#doller55").show();
-    // }
-  console.log($("#rupee20").val);
+    $('#rupee25').hide();
+    $('#rupee55').hide();
+    $('#dollor0').show();
+    $('#rupee0').hide();
+    }
+  
     
     
   });
   $("#sizeDimensions").click(function(){
+    if($("#countryval").val() =='INR'){
+    $("#doller20").hide();
+    $("#doller25").hide();
+    $("#doller50").hide();
+    $("#doller55").hide();
+    $('#rupee20').show();
+    $('#rupee50').show();
+    $("#rupee25").hide();
+    $('#rupee55').hide();
+    $('#dollor0').hide();
+    $('#rupee0').show();
+    }else{
+      console.log($("#countryval").val());
     $("#doller20").show();
     $("#doller25").hide();
     $("#doller50").show();
     $("#doller55").hide();
+    $('#rupee25').hide();
+    $('#rupee55').hide();
+    $('#dollor0').show();
+    $('#rupee0').hide();
+    }
   });
   
 

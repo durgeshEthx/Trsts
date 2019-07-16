@@ -49,7 +49,25 @@
               }, 3000);
               if (response.Success == "Success!") {
                 document.getElementById("aa").click();
+                PNotify.success({
+				title: 'Success!',
+				text: 'Successfully logged in .',
+				styling : 'material',
+				icon    : 'material',
+				delay: 2000
+                 
+			});
               };
+              if(response.verified == '0'){
+                PNotify.success({
+				title: 'Alert!',
+				text: 'Please verify your email to login',
+				styling : 'material',
+				icon    : 'material',
+				delay: 5000
+                 
+			});
+              }
             },
             error: function () {
             }
@@ -72,11 +90,11 @@
         </h4>
         <form action="" id="form" method="POST">
           <div class="form-group">
-            <label for="">EMAIL ADDRESS</label><input class="form-control"  type="email" name="email">
+            <label for="">EMAIL ADDRESS</label><input class="form-control"  type="email" name="email" required>
             <div class="pre-icon os-icon os-icon-email-2-at2"></div>
           </div>
           <div class="form-group">
-            <label for="">PASSWORD</label><input class="form-control" type="password" name="password">
+            <label for="">PASSWORD</label><input class="form-control" type="password" name="password" required>
             <div class="pre-icon os-icon os-icon-fingerprint"></div>
           </div>
           <div class="buttons-w">
@@ -113,14 +131,7 @@
 			// This icon setting requires the Material Icons font. (See below.)
 			//  PNotify.defaults.icons = 'material';
 			console.log('pnotify');
-			PNotify.success({
-				title: 'Success!',
-				text: 'Successfully logged in .',
-				styling : 'material',
-				icon    : 'material',
-				delay: 2000
-                 
-			});
+		
 			// to = $("#to").val();
 			// $("#message").text("Sending E-mail...Please wait");
 			// $.get("http://localhost:3000/", { to: to }, function (data) {
