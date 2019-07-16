@@ -94,7 +94,7 @@
           <div class="menu-and-user">
             <div class="logged-user-w">
               <div class="avatar-w">
-                <img alt="" src="img/avatar1.jpg">
+                <img alt="" src="ui/img/avatar1.jpg">
               </div>
               <div class="logged-user-info-w">
                 <div class="logged-user-name">
@@ -212,14 +212,14 @@
         <div class="menu-w color-scheme-light color-style-default menu-position-side menu-layout-mini menu-side-left menu-layout-full sub-menu-style-over sub-menu-color-bright selected-menu-color-light menu-activated-on-hover menu-has-selected-link">
           <div class="logo-w">
             <a class="logo" href="index.html">
-            <img src="logo.png">
+            <img src="ui/logo.png">
            
             </a>
           </div>
           <div class="logged-user-w avatar-inline">
             <div class="logged-user-i">
               <div class="avatar-w">
-                <img alt="" src="img/avatar1.jpg">
+                <img alt="" src="ui/img/avatar1.jpg">
               </div>
               <div class="logged-user-info-w">
                 <div class="logged-user-name">
@@ -401,7 +401,7 @@
                   <div class="support-ticket-content">
                     <div class="support-ticket-content-header">
                       <h3 class="ticket-header text-muted">
-                        Trsts Document ID: 7YTRK8SJ32F6N8827JY6I2HS8J
+                        Trsts Document ID: <%=trstsID%>
                       </h3>
                       <a class="back-to-index" href="#"><i class="os-icon os-icon-arrow-left5"></i><span>Back</span></a><a class="show-ticket-info" href="#"><span>Show Details</span><i class="os-icon os-icon-documents-03"></i></a>
                     </div>
@@ -454,12 +454,18 @@
                             <div class="avatar" style="background-image: url(&#39;ui/img/sign.png&#39;)"></div>
                             <span ><h6>Signature</h6></span></a>
                         </li> -->
-                        <li><span id="drag2" class="drag">
+                        <!-- <li class="drag"> <a class="author with-avatar" >
                             <div class="avatar" style="background-image: url(&#39;ui/img/sign.png&#39;)"></div>
                             <span ><h6>Signature</h6></span></a>
                             
-                          </span>
-                        </li>
+                          
+                        </li> -->
+                        <li><span id="drag2" class="drag">
+                          <img src="ui/img/sign.jpeg" width="20px" height="20px" />
+                          Signature
+                          
+                        </span>
+                      </li>
                         <li class="drag">
                           <a class="author with-avatar" >
                             <div class="avatar" style="background-image: url(&#39;ui/img/initials.png&#39;)"></div>
@@ -539,16 +545,17 @@
 
     <script>
   	var x = null;
-		//Make element draggable
+    //Make element draggable
+    
 		$(".drag").draggable({
 			helper: 'clone',
 			cursor: 'move',
 			tolerance: 'fit',
       revert: true,
-     zIndex:20000,
+      
      
 		});
-
+    $('.drag').css("position","relative");
 		$("#droppable").droppable({
 			accept: '.drag',
 			activeClass: "drop-area",
@@ -585,7 +592,7 @@
 				}
 			}
 		});
-
+$('#droppable').css('position','relative');
 		$("#remove-drag").droppable({
 			drop: function (event, ui) {
 				$(ui.draggable).remove();
@@ -593,7 +600,7 @@
 			hoverClass: "remove-drag-hover",
 			accept: '.remove'
 		});
-
+$('.drag.ui-draggable.ui-draggable-handle.ui-draggable-dragging.ui-resizable.remove').css('position','relative');
       </script>
   </body>
  

@@ -334,7 +334,7 @@
                   <span>Sign Documents</span></a>
                 <ul class="sub-menu">
                   <li>
-                    <a href="/profile">Just me</a>
+                    <a href="/profile">Just me</a>      
                   </li>
                   <li>
                     <a href="#">Me & others</a>
@@ -1142,6 +1142,32 @@
     </script>
   <script>
       $(document).ready(function(){
+
+          $('.slick-next.slick-arrow').click(function(){
+            console.log('next clicked');
+            var form = $('#introform').closest("introform");
+   
+             form.submit();
+          //  $('.modal-backdrop.fade.show').css("display","none");
+          //  $('.modal-content.text-center').css("display","none");
+            
+            $.ajax({
+            type: 'GET',
+            url: '/dashboard',
+            data: $('#introform').serialize(),
+            dataType: "text",
+            success: function (response) {
+             // alert("a");
+              console.log(response.Success);
+             // $('#introform')[0].reset();
+  
+            },
+            error: function () {
+            }
+          })
+          })
+
+
         console.log('resend');
          if( $('#resendinp').val() == 1)
          {
@@ -1151,7 +1177,7 @@
 
          $('#closeintro').click(function(){
           console.log('close intro');
-          var form = $(this).closest("introform");
+          var form = $('#introform').closest("introform");
    
           form.submit();
          });
@@ -1159,20 +1185,7 @@
       // $("#introform").submit(function (event) {
       //     event.preventDefault();
   
-          $.ajax({
-            type: 'GET',
-            url: '/dashboard',
-            data: $('#introform').serialize(),
-            dataType: "json",
-            success: function (response) {
-              alert("a");
-              console.log(response.Success);
-              $('#introform')[0].reset();
-  
-            },
-            error: function () {
-            }
-          })
+         
        // });
 
 

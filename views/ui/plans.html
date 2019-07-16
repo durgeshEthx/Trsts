@@ -240,8 +240,8 @@ body:not(:-moz-handler-blocked) fieldset {
                       </div>
                     </div>
                     <div class="plan-btn-w">
-                      <a class="btn btn-primary btn-rounded" href="/dashboard">Select Plan</a>
-                      <!-- <a href="javascript:void(0)" class="login-button btn btn-primary btn-rounded">Select Plan</a> -->
+                      <!-- <a class="btn btn-primary btn-rounded"  type="submit" >Select Plan</a> -->
+                      <a href="javascript:void(0)" class="login-button btn btn-primary btn-rounded">Select Plan</a>
                     </div>
                   </div>
                   <div class="plan-description">
@@ -301,8 +301,9 @@ body:not(:-moz-handler-blocked) fieldset {
                       </div>
                     </div>
                     <div class="plan-btn-w">
-                      <a class="btn btn-primary btn-rounded" href="/dashboard">Free Trial</a>
+                      <!-- <a class="btn btn-primary btn-rounded"  type="submit">Free Trial</a> -->
                       <!-- <button  class="btn btn-primary btn-rounded" type="submit" >Free Trial</button> -->
+                      <a href="javascript:void(0)" class="btn btn-primary btn-rounded" id="startup">Free Trial</a>
                       <br><br><p class="text-danger"><strong>14 day free trial. No credit card required.</strong></p>
                     </div>
                   </div>
@@ -373,7 +374,9 @@ body:not(:-moz-handler-blocked) fieldset {
                       </div>
                     </div>
                     <div class="plan-btn-w">
-                      <a class="btn btn-primary btn-rounded" href="/dashboard" type="submit">Free Trial</a>
+                      <!-- <a class="btn btn-primary btn-rounded"  type="submit">Free Trial</a> -->
+                     <!-- <button class="btn btn-primary btn-rounded" type="submit">Free Trail</button> -->
+                     <a href="javascript:void(0)" class="btn btn-primary btn-rounded" id="enterprise">Free Trial</a>
                       <br><br><p class="text-danger"><strong>14 day free trial. No credit card required.</strong></p>
                     </div>
                   </div>
@@ -571,6 +574,25 @@ $(document).ready(function(){
      $('#plantime').val(radioValue);
      form.submit();
    });
+
+   $('#startup').click(function(){
+console.log('startup')
+var form = $(this).closest("form");
+     //console.log(form);
+     $('#plan-name').val('Startup');
+     var radioValue = $("input[name='sizeBy']:checked").val();
+     $('#plantime').val(radioValue);
+     form.submit();
+   });
+   $('#enterprise').click(function(){
+     console.log('enterprise');
+     var form = $(this).closest("form");
+     //console.log(form);
+     $('#plan-name').val('Enterprise');
+     var radioValue = $("input[name='sizeBy']:checked").val();
+     $('#plantime').val(radioValue);
+     form.submit();
+   })
 });
 
 

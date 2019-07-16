@@ -137,9 +137,40 @@ router.post('/', function (req, res) {
 	}
 });
 router.get('/dashboard', function (req, res) {
-	p('inside get');
+
 	// res.render('dashboard.ejs');
-	res.render('dashboard.ejs',{email_verified:1});
+	p('your comapny '+req.query.companyname);
+	p('role '+req.query.role);
+	if(req.query.companyname != undefined && req.query.role != undefined){
+ 
+		
+	User.findOne({email:req.session.email},function(err,data){
+		if(data){
+			
+			
+			userdetail.findOne({uid:data._id},function(err,userd){
+				p('inside get');
+			p(req.session.email);
+				userd.company = req.query.companyname;
+				userd.position = req.query.role;
+				userd.save(function(err,res){
+					if(err){
+						p(err);
+					}else{
+						p(res);
+					}
+				});
+				res.render('dashboard.ejs',{email_verified:1,slick:1});
+			});
+		}else{
+			
+			res.render('dashboard.ejs',{email_verified:1,slick:0});
+		}
+	});
+}else{
+	res.render('dashboard.ejs',{email_verified:1,slick:0});
+}
+	
 });
 
 //upadtes the billing collection when plan not choosed
@@ -169,16 +200,14 @@ router.post('/dashboard', function (req, res) {
 					}
 				});
 			});
-			if(data.email_verified == 1){
+			// if(data.email_verified == 1){
 				res.render('dashboard.ejs',{email_verified:1});
-			}
+			// }
 			
-		}else{
-
 		}
 	});
 
-	res.render('dashboard.ejs');
+	res.render('dashboard.ejs',{email_verified:1});
 });
 router.get('/plans', function (req, res) {
 	const country = req.body.country;
@@ -430,8 +459,9 @@ router.post('/signd', function (req, res) {
 	var imgpath = path.join('images', imgname);
 	imgpath = imgpath + '.png';
 	//......//
-	if(getUser_id(req))
+	
 
+	// for logged in user
 	var document = new Document({
 		uid:getUser_id(req.session.email),
 		trstsID: waterMark,
@@ -442,22 +472,63 @@ router.post('/signd', function (req, res) {
 		ip: getClientIp(req),
 		status: 1,
 	});
-	document.save();                                                                                                                                                                                                                                                                                                                                                              
-    if(getUser_id(info.signemail)){
+	document.save(function(err,doc){
+		if(err)
+		{
+			p(err);
+		}else{
+			p(doc);
+		}
+	});  
+	
+	
+    if(getUser_id(info.signemail) != ""){
 		var uid = getUser_id(info.signemail);
-		var signees = new signee({
-			document_id:document._id,
-			signee_uid:uid,
-			status:1
-		}) ;
+		createSignee(document._id, uid);
+	}else{
+		registerUser(info.signname,info.signemail, req, res);
+		var uid = getUser_id(info.signemail);
+		createSignee(document._id, uid);
 	}
-	else{
-		
+
+	if(getUser_id(info.secemail) != ""){
+		var uid = getUser_id(info.secemail);
+		createSignee(document._id,uid);
+		// var signees = new signee({
+		// 	document_id:document._id,
+		// 	signee_uid:uid,
+		// 	status:1
+		// }) ;
+		// signees.save();
+	}else{
+		registerUser(info.secname,info.secemail, req, res);
+		var uid = getUser_id(info.secemail);
+		createSignee(document._id,uid);
+	}
+	
+	const count = info.count;
+	p(count);
+	for(var i =1; i<=count; i++){
+		p('count '+i);
+		if(getUser_id(info.email + i)){
+			var uid = getUser_id(info.email + i);
+			createSignee(document._id,uid);
+			// var signees = new signee({
+			// 	document_id:document._id,
+			// 	signee_uid:uid,
+			// 	status:1
+			// }) ;
+			// signees.save();
+		}else{
+			registerUser(info.name +i,info.email + i, req, res);
+			var uid = getUser_id(info.email + i);
+			createSignee(document._id,uid);
+		}
 	}
 	
 	
-	 res.render('prepare.ejs',{ imgpath: imgpath,docname:info.doctitle,docdesc:info.docdesc});
-//	res.render('signd.ejs',{ imgpath: imgpath,name:name});//{ imgpath: imgpath, name: name }      
+		res.render('prepare.ejs',{ imgpath: imgpath,docname:info.doctitle,docdesc:info.docdesc,trstsID:waterMark});
+	//res.render('signd.ejs',{ imgpath: imgpath,name:name});//{ imgpath: imgpath, name: name }      
 });
 
 //any format -> pdf -> png
@@ -585,6 +656,249 @@ router.post('/contactus', function (req, res) {
 
 
 module.exports = router;
+
+function createSignee(id, uid) {
+	p('uid '+uid);
+	var signees = new signee({
+		document_id: id,
+		signee_uid: uid,
+		status: 1
+	});
+	signees.save(function (err, signee) {
+		if (err) {
+			p(err);
+		}
+		else {
+			p(signee);
+		}
+	});
+	return signees;
+}
+
+function registerUser(name,email, req, res) {
+	var c;
+	User.findOne({}, function (err, data) {
+		if (data) {
+			c = data.uid + 1;
+		}
+		else {
+			c = 1;
+		}
+		rand = genToken(); // gen code for email code url.
+		console.log('rand ' + md5('ethx' + rand + 'smlabs'));
+		code = md5('ethx' + rand + 'smlabs');
+		//	global.ec = emailcode;
+		var newPerson = new User({
+			uid: c,
+			email: email,
+			fullname: name,
+			password: "",
+			passwordConf: "",
+			email_code: code,
+			email_verified: 0,
+			Date: Date.now(),
+			ip: getClientIp(req),
+			status: 2,
+			pwd_reset_code: "",
+		});
+		newPerson.save(function (err, Person) {
+			if (err) {
+				console.log('newperson' + err);
+			}
+			else
+				console.log('Success');
+		});
+		var userdetails = new userdetail({
+			//unique_id: c, 
+			uid: newPerson._id,
+			//	_id:c,
+			country: "",
+			currency: "",
+			mobile: "",
+			company: "",
+			position: "",
+			status: ""
+		});
+		userdetails.save(function (err, details) {
+			if (err) {
+				console.log('details ' + err);
+			}
+			else
+				// userdetail.find({})
+				// .populate('uid')
+				// .exec(function(err,userdetail){
+				// 	console.log(userdetail._id);
+				// });
+				console.log('Success');
+		});
+		// create collection for billing , invoice , payment
+		var billings = new billing({
+			uid: newPerson._id,
+			plan: "",
+			start_date: "",
+			end_date: "",
+			plan_type: "",
+			status: ""
+		});
+		billings.save(function (err, billing) {
+			if (err) {
+				p('err' + err);
+			}
+			else {
+				p('billing ' + billing);
+			}
+		});
+		var payments = new payment({
+			uid: newPerson._id,
+			invoice_id: "",
+			payment_method: "",
+			total: "",
+			currency: "",
+			transaction_id: "",
+			status: ""
+		});
+		payments.save(function (err, payment) {
+			if (err) {
+				p('payment err' + err);
+			}
+			else {
+				p('payment' + payment);
+			}
+		});
+		var invoices = new invoice({
+			uid: newPerson._id,
+			plan: "",
+			description: "",
+			amount: "",
+			tax: "",
+			total: "",
+			currency: "",
+			status: ""
+		});
+		invoices.save(function (err, invoice) {
+			if (err) {
+				p('invoce err' + invoice);
+			}
+			else {
+				p('invoice' + invoice);
+			}
+		});
+		var user_trsts_credits = new user_trsts_credit({
+			uid: newPerson._id,
+			credits: "",
+			status: ""
+		});
+		user_trsts_credits.save(function (err, user_trsts_credit) {
+			if (err) {
+				p('user_credit_err ' + err);
+			}
+			else {
+				p('user_credit ' + user_trsts_credit);
+			}
+		});
+		//user_address
+		var user_addresss = new user_address({
+			uid: newPerson._id,
+			address1: "",
+			address2: "",
+			city: "",
+			state: "",
+			country: "",
+			zip: "",
+			status: ""
+		});
+		user_addresss.save(function (err, user_address) {
+			if (err) {
+				p('user_add err' + err);
+			}
+			else {
+				p('user_add ' + user_address);
+			}
+		});
+		//support replies
+		var support_replie = new support_replies({
+			support_id: "",
+			uid: newPerson._id,
+			admin_id: "",
+			body: "",
+			date: "",
+			ip: "",
+			status: ""
+		});
+		support_replie.save(function (err, support_replie) {
+			if (err) {
+				p('support reples err' + err);
+			}
+			else {
+				p('support replie ' + support_replie);
+			}
+		});
+		//support
+		var supports = new support({
+			uid: newPerson._id,
+			subject: "",
+			body: "",
+			date: Date.now(),
+			ip: getClientIp(req),
+			is_admin: "",
+			status: ""
+		});
+		supports.save(function (err, support) {
+			if (err) {
+				p(err);
+			}
+			else {
+				p(support);
+			}
+		});
+		// user money wallet
+		var user_money_wallets = new user_money_wallet({
+			uid: newPerson._id,
+			amount: "",
+			currency: "",
+			status: ""
+		});
+		user_money_wallets.save(function (err, user_money_wallet) {
+			if (err) {
+				p(err);
+			}
+			else {
+				p(user_money_wallet);
+			}
+		});
+		//otp
+		var otps = new otp({
+			uid: newPerson._id,
+			code: "",
+			date: "",
+			ip: "",
+			status: ""
+		});
+		otps.save(function (err, otp) {
+			if (err) {
+				p(err);
+			}
+			else {
+				p(otp);
+			}
+		});
+		//wallet_address
+		var wallet_addresss = new wallet_address({
+			uid: newPerson._id,
+			address: "",
+			status: ""
+		});
+		wallet_addresss.save(function (err, wallet_address) {
+			if (err) {
+				p(err);
+			}
+			else {
+				p(wallet_address);
+			}
+		});
+		//sendMailForVerification(data, req, personInfo, res);
+	}).sort({ _id: -1 }).limit(1);
+}
 
 function getUser_id(email) {
 	User.findOne({ email:email }, function (err, data) {
@@ -874,7 +1188,7 @@ function finddata(personInfo, req, res, data) {
 			uid: newPerson._id,
 			subject: "",
 			body: "",
-			date: Date,
+			date: Date.now(),
 			ip: getClientIp(req),
 			is_admin: "",
 			status: ""
