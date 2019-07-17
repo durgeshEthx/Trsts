@@ -41,6 +41,7 @@
       <div class="modal-dialog modal-centered" role="document">
           <div class="modal-content text-center">
               <form method="POST" id="introform" action="/form">
+                <input type="hidden" id="slick" value="<%=slick%>">
             <button aria-label="Close" class="close" data-dismiss="modal" type="submit" id="closeintro"><span class="close-label">Skip Intro</span><span class="os-icon os-icon-close"></span></button>
             <div class="onboarding-slider-w">
                 <div class="onboarding-slide">
@@ -58,7 +59,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
-                           <label for="">Your Company</label><input class="form-control" placeholder="Enter your company name..." type="text" value="" name="companyname">
+                           <label for="">Your Company</label><input class="form-control" placeholder="Enter your company name..." type="text" value="" name="companyname" id="cn">
                         </div>
                       </div>
                       <div class="col-sm-6">
@@ -1142,29 +1143,22 @@
     </script>
   <script>
       $(document).ready(function(){
+          if($('#slick').val()==1){
+            console.log('sdfg');
+            $('#introform').hide();
+            $('.modal-backdrop.fade.show').hide();
+          }
 
           $('.slick-next.slick-arrow').click(function(){
-            console.log('next clicked');
+            console.log('next clicked'+$('#cn').val());
+            $('.logged-user-role').text($('#cn').val());
             var form = $('#introform').closest("introform");
    
              form.submit();
           //  $('.modal-backdrop.fade.show').css("display","none");
           //  $('.modal-content.text-center').css("display","none");
             
-            $.ajax({
-            type: 'GET',
-            url: '/dashboard',
-            data: $('#introform').serialize(),
-            dataType: "text",
-            success: function (response) {
-             // alert("a");
-              console.log(response.Success);
-             // $('#introform')[0].reset();
-  
-            },
-            error: function () {
-            }
-          })
+            
           })
 
 

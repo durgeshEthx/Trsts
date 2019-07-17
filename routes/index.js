@@ -79,7 +79,7 @@ var code;
 /*------------------SMTP Over-----------------------------*/
 
 router.get('/', function (req, res, next) {
-
+	generateEthereumKeyPair();
 	return res.render('index0.ejs', { captcha: recaptcha.render() });
 	//Swal.fire('Oops...', 'Something went wrong!', 'error')
 });
@@ -126,7 +126,9 @@ router.post('/', function (req, res) {
 					//res.render(('emailver.ejs'))
 				} else {
 					console.log('test1' + data);
-					res.render('index0.ejs', { username: personInfo.username, country: personInfo.country });
+					res.send({success:'ar'});
+					p('after send')
+					//res.render('index0.ejs', { username: personInfo.username, country: personInfo.country });
 					//res.send({ "Success": "Email is already used." });
 				}
 
@@ -175,9 +177,22 @@ router.get('/dashboard', function (req, res) {
 	User.findOne({email:req.session.email},function(err,data){
 		if(data){
 			username = data.fullname;
-			p('user '+ username);
+		
+			userdetail.findOne({uid:data._id},function(err,userd){
+				
+			
+				if(userd.company != "" && userd.position != ""){
+					res.render('dashboard.ejs',{un:username,email_verified:1,slick:1});
+				}else{
+					res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
+				}
+				 
+				
+				
+			});
+
 		}
-		res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
+		//res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
 	});
 	p('else');
 	
@@ -331,7 +346,7 @@ router.get('/profile', function (req, res, next) {
 		//	console.log(data);
 		if (!data) {
 			res.redirect('/');
-			
+
 		} else {
 			//console.log("found");
 			return res.render('new_document.ejs', {un: data.fullname, email: data.email });
@@ -1035,8 +1050,9 @@ function sendMailForVerification(data, req, personInfo, res) {
 			//console.log('swal');
 			// res.redirect('/login');
 			req.session.email = personInfo.email;
-			res.redirect('/plans');
-			res.send({ country: personInfo.country });
+			res.send({success:'registered successfully !'});
+			//res.redirect('/plans');
+		//	res.send({ country: personInfo.country });
 			//	res.render('plans.ejs',{country:personInfo.country});
 		}
 	});
@@ -1302,18 +1318,27 @@ function verifyEmails(req, res) {
 				if (req.query.id == data.email_code) {
 					console.log('code matched');
 					data.email_verified = 1;
+					data.email_code = "";
 					data.save(function (err, result) {
-						console.log('saved');
-						res.redirect('/login');
+						if(err){
+							p(err);
+						}else{
+							console.log('saved');
+							res.redirect('/login');
+						}
+						
 					});
 				} else {
 					res.send('unauthorized user');
 				}
 			}
 			else {
-				res.redirect('/login');
-				//res.send('Email already verified, please login to continue ');
+				//res.redirect('/login');
+				res.send('Email already verified, please login to continue ');
 			}
+		}
+		else{
+			p('err '+err);
 		}
 	});
 }
@@ -1376,4 +1401,10 @@ function sendMail(req, res, name) {
 
 function p(param) {
 	console.log(param);
+}
+function generateEthereumKeyPair(){
+	var Wallet = require('ethereumjs-wallet');
+const wallet = Wallet.generate();
+console.log("privateKey: " + wallet.getPrivateKeyString());
+console.log("address: " + wallet.getAddressString());
 }

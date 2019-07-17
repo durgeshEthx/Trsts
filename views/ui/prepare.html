@@ -581,7 +581,7 @@
 					});
 					x.addClass('remove');
 					var el = $("<span><a href='Javascript:void(0)' class=\"xicon delete\" title=\"Remove\">X</a></span>");
-					$(el).insertAfter($(x.find('img')));
+					$(el).insertBefore($(x.find('img')));
 					x.appendTo('#droppable');
 					$('.delete').on('click', function () {
 						$(this).parent().parent('span').remove();
@@ -600,7 +600,8 @@ $('#droppable').css('position','relative');
 			hoverClass: "remove-drag-hover",
 			accept: '.remove'
 		});
-$('.drag.ui-draggable.ui-draggable-handle.ui-draggable-dragging.ui-resizable.remove').css('position','relative');
+$('.ui-draggable-dragging.').css('position','relative !important');
+
       </script>
   </body>
  

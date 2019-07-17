@@ -391,7 +391,7 @@
 			<span id="check"></span>
 		</div>
 
-		<div id="LangTable"><a href="/login" id="aa"></a>
+		<div id="LangTable"><a href="/plans" id="aa"></a>
 		</div>
 
 
@@ -413,7 +413,7 @@
 		// });
 
 		$('#formreg').submit(function (e) {
-			first_form
+			// first_form
 			e.preventDefault();
 			var name = $('#name').val();
 			// var last_name = $('#email').val();
@@ -458,19 +458,49 @@
 		// swal.fire("Hello world!");
 		var from, to, subject, text;
 		$("#send_email").click(function () {
-			//var PNotifyStyleMaterial = require('pnotify/dist/umd/PNotifyStyleMaterial.js');
-			 
-			// This icon setting requires the Material Icons font. (See below.)
-			//  PNotify.defaults.icons = 'material';
-			console.log('pnotify');
-			PNotify.success({
-				title: 'Success!',
-				text: 'Successfully registered choose plan to proceed .',
+		
+
+			$.ajax({
+            type: 'POST',
+            url: '/',
+            data: $('#formreg').serialize(),
+            dataType: "json",
+            success: function (response) {
+
+				if(response.success == 'ar'){
+					
+					setTimeout(function(){location.reload(true);},1000);
+					
+			    PNotify.success({
+				title: 'Alert!',
+				text: 'Email Already registered, click below to login.',
 				styling : 'material',
 				icon    : 'material',
-				delay: 2000
+				delay: 1000
                  
 			});
+  
+				}else{
+					if(response.success == 'registered successfully !'){
+				
+						
+            //     PNotify.success({
+			// 	title: 'Success!',
+			// 	text: 'Successfully Registered .',
+			// 	styling : 'material',
+			// 	icon    : 'material',
+			// 	delay: 2000
+                 
+			// });
+			document.getElementById("aa").click();
+					}
+				}
+			
+            },
+            error: function () {
+            }
+          })
+			
 			// to = $("#to").val();
 			// $("#message").text("Sending E-mail...Please wait");
 			// $.get("http://localhost:3000/", { to: to }, function (data) {
@@ -489,7 +519,7 @@
 		var goodColor = "#66cc66";
 		var badColor = "#ff6666";
 
-		if (pass1.value.length > 8) {
+		if (pass1.value.length > 1) {
 			pass1.style.backgroundColor = goodColor;
 			message.style.color = goodColor;
 			message.innerHTML = "character number ok!"
