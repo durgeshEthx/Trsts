@@ -228,9 +228,19 @@ router.post('/dashboard', function (req, res) {
 				});
 			});
 			// if(data.email_verified == 1){
-				res.render('dashboard.ejs',{un:data.fullname,email_verified:data.email_verified});
+			//	res.render('dashboard.ejs',{un:data.fullname,email_verified:data.email_verified});
 			// }
+			username = data.fullname;
+		
+			userdetail.findOne({uid:data._id},function(err,userd){
+				
 			
+				if(userd.company != "" && userd.position != ""){
+					res.render('dashboard.ejs',{un:username,email_verified:1,slick:1});
+				}else{
+					res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
+				}
+			});
 			}
 	});
 
