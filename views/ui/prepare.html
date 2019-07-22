@@ -1,611 +1,760 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>trsts.co- Digitally sign documents on blockchain</title>
 
-    <meta charset="utf-8">
-    <meta content="ie=edge" http-equiv="x-ua-compatible">
-    <meta content="template language" name="keywords">
-    <meta content="Tamerlan Soziev" name="author">
-    <meta content="Admin dashboard html template" name="description">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link href="ui/favicon.png" rel="shortcut icon">
-    <link href="ui/apple-touch-icon.png" rel="apple-touch-icon">
+<head>
+  <title>trsts.co- Digitally sign documents on blockchain</title>
 
-   
+  <meta charset="utf-8">
+  <meta content="ie=edge" http-equiv="x-ua-compatible">
+  <meta content="template language" name="keywords">
+  <meta content="Tamerlan Soziev" name="author">
+  <meta content="Admin dashboard html template" name="description">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="ui/favicon.png" rel="shortcut icon">
+  <link href="ui/apple-touch-icon.png" rel="apple-touch-icon">
 
 
-    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet" type="text/css">
-    <link href="ui/bower_components/select2/dist/css/select2.min.css" rel="stylesheet">
-    <link href="ui/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-    <link href="ui/bower_components/dropzone/dist/dropzone.css" rel="stylesheet">
-    <link href="ui/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="ui/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
-    <link href="ui/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" rel="stylesheet">
-    <link href="ui/bower_components/slick-carousel/slick/slick.css" rel="stylesheet">
-    <link href="ui/css/main.css?version=4.4.0" rel="stylesheet">
-        <link href="ui/icon_fonts_assets/feather/style.css" rel="stylesheet">
-            <link href="ui/icon_fonts_assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-            <script src="ui/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="ui/bower_components/popper.js/dist/umd/popper.min.js"></script>
-    <script src="ui/bower_components/moment/moment.js"></script>
-    <script src="ui/bower_components/chart.js/dist/Chart.min.js"></script>
-    <script src="ui/bower_components/select2/dist/js/select2.full.min.js"></script>
-    <script src="ui/bower_components/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
-    <script src="ui/bower_components/ckeditor/ckeditor.js"></script>
-    <script src="ui/bower_components/bootstrap-validator/dist/validator.min.js"></script>
-    <script src="ui/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <script src="ui/bower_components/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
-    <script src="ui/bower_components/dropzone/dist/dropzone.js"></script>
-    <script src="ui/bower_components/editable-table/mindmup-editabletable.js"></script>
-    <script src="ui/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="ui/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="ui/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-    <script src="ui/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
-    <script src="ui/bower_components/tether/dist/js/tether.min.js"></script>
-    <script src="ui/bower_components/slick-carousel/slick/slick.min.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/util.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/alert.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/button.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/carousel.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/collapse.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/dropdown.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/modal.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/tab.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/tooltip.js"></script>
-    <script src="ui/bower_components/bootstrap/js/dist/popover.js"></script>
-    <script src="ui/js/demo_customizer.js?version=4.4.0"></script>
-    <script src="ui/js/main.js?version=4.4.0"></script>
-            
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-            
-            
-<style>
-.row.match-my-cols {
-    overflow: hidden; 
-}
 
-.row.match-my-cols [class*="col-"]{
-    margin-bottom: -99999px;
-    padding-bottom: 99999px;
-}
-</style>
-  </head>
-  <body class="menu-position-side menu-side-left full-screen with-content-panel">
-    
-    <div class="all-wrapper with-side-panel solid-bg-all">
-    
-      
-      <div class="layout-w">
-        <!--------------------
+
+  <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet" type="text/css">
+  <link href="ui/bower_components/select2/dist/css/select2.min.css" rel="stylesheet">
+  <link href="ui/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+  <link href="ui/bower_components/dropzone/dist/dropzone.css" rel="stylesheet">
+  <link href="ui/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+  <link href="ui/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+  <link href="ui/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" rel="stylesheet">
+  <link href="ui/bower_components/slick-carousel/slick/slick.css" rel="stylesheet">
+  <link href="ui/css/main.css?version=4.4.0" rel="stylesheet">
+  <link href="ui/icon_fonts_assets/feather/style.css" rel="stylesheet">
+  <link href="ui/icon_fonts_assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <script src="ui/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="ui/bower_components/popper.js/dist/umd/popper.min.js"></script>
+  <script src="ui/bower_components/moment/moment.js"></script>
+  <script src="ui/bower_components/chart.js/dist/Chart.min.js"></script>
+  <script src="ui/bower_components/select2/dist/js/select2.full.min.js"></script>
+  <script src="ui/bower_components/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
+  <script src="ui/bower_components/ckeditor/ckeditor.js"></script>
+  <script src="ui/bower_components/bootstrap-validator/dist/validator.min.js"></script>
+  <script src="ui/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+  <script src="ui/bower_components/ion.rangeSlider/js/ion.rangeSlider.min.js"></script>
+  <script src="ui/bower_components/dropzone/dist/dropzone.js"></script>
+  <script src="ui/bower_components/editable-table/mindmup-editabletable.js"></script>
+  <script src="ui/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="ui/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+  <script src="ui/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+  <script src="ui/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="ui/bower_components/tether/dist/js/tether.min.js"></script>
+  <script src="ui/bower_components/slick-carousel/slick/slick.min.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/util.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/alert.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/button.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/carousel.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/collapse.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/dropdown.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/modal.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/tab.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/tooltip.js"></script>
+  <script src="ui/bower_components/bootstrap/js/dist/popover.js"></script>
+  <script src="ui/js/demo_customizer.js?version=4.4.0"></script>
+  <script src="ui/js/main.js?version=4.4.0"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
+
+  <style>
+    .row.match-my-cols {
+      overflow: hidden;
+    }
+
+    .row.match-my-cols [class*="col-"] {
+      margin-bottom: -99999px;
+      padding-bottom: 99999px;
+    }
+  </style>
+</head>
+
+<body class="menu-position-side menu-side-left full-screen with-content-panel">
+
+  <div class="all-wrapper with-side-panel solid-bg-all">
+
+
+    <div class="layout-w">
+      <!--------------------
         START - Mobile Menu
         -------------------->
-        <div class="menu-mobile menu-activated-on-click color-scheme-dark">
-          <div class="mm-logo-buttons-w">
-            <a class="mm-logo" href="dashboard.html"><img src="ui/favicon.png"><span>trsts</span></a>
-            <div class="mm-buttons">
-              
-              <div class="mobile-menu-trigger">
-                <div class="os-icon os-icon-hamburger-menu-1"></div>
-              </div>
-            </div>
-          </div>
-          <div class="menu-and-user">
-            <div class="logged-user-w">
-              <div class="avatar-w">
-                <img alt="" src="ui/img/avatar1.jpg">
-              </div>
-              <div class="logged-user-info-w">
-                <div class="logged-user-name">
-                  Maria Gomez
-                </div>
-                <div class="logged-user-role">
-                  [Company Name]
-                </div>
-              </div>
-            </div>
-            <!--------------------
-            START - Mobile Menu List
-            -------------------->
-            <ul class="main-menu">
-              <li class="">
-                <a href="index.html">
-                  <div class="icon-w">
-                    <div class="os-icon os-icon-layout"></div>
-                  </div>
-                  <span>Dashboard</span></a>
+      <div class="menu-mobile menu-activated-on-click color-scheme-dark">
+        <div class="mm-logo-buttons-w">
+          <a class="mm-logo" href="dashboard.html"><img src="ui/favicon.png"><span>trsts</span></a>
+          <div class="mm-buttons">
 
-              </li>
-              <li class="has-sub-menu">
-                <a href="layouts_menu_top_image.html">
-                
-                  <div class="icon-w">
-                    <div class="os-icon os-icon-tasks-checked"></div>
-                  </div>
-                  <span>Sign Documents</span></a>
-                <ul class="sub-menu">
-                  <li>
-                    <a href="layouts_menu_side_full.html">Just me</a>
-                  </li>
-                  <li>
-                    <a href="layouts_menu_side_full_dark.html">Me & others</a>
-                  </li>
-                  <li>
-                    <a href="layouts_menu_side_transparent.html">Just others</a>
-                  </li>
-                 
-             
-                </ul>
-              </li>
-              <li class="">
-                <a href="apps_bank.html">
-                  <div class="icon-w">
-                    <div class="os-icon os-icon-file-text"></div>
-                  </div>
-                  <span>Documents</span></a>
-                
-              </li>
-              <li class="has-sub-menu">
-                <a href="#">
-                  <div class="icon-w">
-                    <div class="os-icon os-icon-coins-4"></div>
-                  </div>
-                  <span>Billing</span></a>
-                <ul class="sub-menu">
-                  <li>
-                    <a href="misc_invoice.html">My Invoices</a>
-                  </li>
-                  <li>
-                    <a href="rentals_index_grid.html">Payment Methods</a>
-                  </li>
-                  <li>
-                    <a href="misc_charts.html">Change Plan</a>
-                  </li>
-                 
-                </ul>
-              </li>
-              <li class="has-sub-menu">
-                <a href="#">
-                  <div class="icon-w">
-                    <div class="os-icon os-icon-life-buoy"></div>
-                  </div>
-                  <span>Support</span></a>
-                <ul class="sub-menu">
-                  <li>
-                    <a href="uikit_modals.html">Create new ticket</a>
-                  </li>
-                  <li>
-                    <a href="uikit_alerts.html">Check ticket status</a>
-                  </li>
-                  <li>
-                    <a href="uikit_grid.html">Knowledge base</a>
-                  </li>
-                  <li>
-                    <a href="uikit_progress.html">Community</a>
-                  </li>
-               
-                </ul>
-              </li>
-
-              <li class="">
-                <a href="#">
-                  <div class="icon-w">
-                    <div class="os-icon os-icon-users"></div>
-                  </div>
-                  <span>Settings</span></a>
-               
-              </li>
-              
-            </ul>
-            <!--------------------
-            END - Mobile Menu List
-            -------------------->
-        
+            <div class="mobile-menu-trigger">
+              <div class="os-icon os-icon-hamburger-menu-1"></div>
+            </div>
           </div>
         </div>
-        <!--------------------
-        END - Mobile Menu
-        --------------------><!--------------------
-        START - Main Menu
-        -------------------->
-        <div class="menu-w color-scheme-light color-style-default menu-position-side menu-layout-mini menu-side-left menu-layout-full sub-menu-style-over sub-menu-color-bright selected-menu-color-light menu-activated-on-hover menu-has-selected-link">
-          <div class="logo-w">
-            <a class="logo" href="index.html">
-            <img src="ui/logo.png">
-           
-            </a>
-          </div>
-          <div class="logged-user-w avatar-inline">
-            <div class="logged-user-i">
-              <div class="avatar-w">
-                <img alt="" src="ui/img/avatar1.jpg">
+        <div class="menu-and-user">
+          <div class="logged-user-w">
+            <div class="avatar-w">
+              <img alt="" src="ui/img/avatar1.jpg">
+            </div>
+            <div class="logged-user-info-w">
+              <div class="logged-user-name">
+                Maria Gomez
               </div>
-              <div class="logged-user-info-w">
-                <div class="logged-user-name">
-                  John Doe
-                </div>
-                <div class="logged-user-role">
-                  [Company Name]
-                </div>
+              <div class="logged-user-role">
+                [Company Name]
               </div>
-            
             </div>
           </div>
-        
-         
-          <h1 class="menu-page-header">
-            Page Header
-          </h1>
+          <!--------------------
+            START - Mobile Menu List
+            -------------------->
           <ul class="main-menu">
-            <li class="sub-header">
-              <span>Menu</span>
-            </li>
-            <li class="selected">
+            <li class="">
               <a href="index.html">
                 <div class="icon-w">
                   <div class="os-icon os-icon-layout"></div>
                 </div>
-                <span>Dashboard</span></a>
-              
+                <span>Dashboard</span>
+              </a>
+
             </li>
-            <li class="sub-header">
-              <span>Sign</span>
-            </li>
-            <li class=" has-sub-menu">
-              <a href="apps_bank.html">
+            <li class="has-sub-menu">
+              <a href="layouts_menu_top_image.html">
+
                 <div class="icon-w">
                   <div class="os-icon os-icon-tasks-checked"></div>
                 </div>
-                <span>Sign Documents</span></a>
-              <div class="sub-menu-w">
-                <div class="sub-menu-header">
-                  Sign documents
-                </div>
-                <div class="sub-menu-icon">
-                  <i class="os-icon os-icon-tasks-checked"></i>
-                </div>
-                <div class="sub-menu-i">
-                  <ul class="sub-menu">
-                    <li>
-                      <a href="apps_email.html">Just Me</a>
-                    </li>
-                    <li>
-                      <a href="apps_support_dashboard.html">Me & Others</a>
-                    </li>
-                    <li>
-                      <a href="apps_support_index.html">Just others</a>
-                    </li>
-                   
-                  </ul>
-                </div>
-              </div>
+                <span>Sign Documents</span>
+              </a>
+              <ul class="sub-menu">
+                <li>
+                  <a href="layouts_menu_side_full.html">Just me</a>
+                </li>
+                <li>
+                  <a href="layouts_menu_side_full_dark.html">Me & others</a>
+                </li>
+                <li>
+                  <a href="layouts_menu_side_transparent.html">Just others</a>
+                </li>
+
+
+              </ul>
             </li>
-            <li class=" u">
-              <a href="#">
+            <li class="">
+              <a href="apps_bank.html">
                 <div class="icon-w">
                   <div class="os-icon os-icon-file-text"></div>
                 </div>
-                <span>Documents</span></a>
-              
+                <span>Documents</span>
+              </a>
+
             </li>
-           
-            <li class="sub-header">
-              <span>My Profile</span>
-            </li>
-             <li class=" has-sub-menu">
+            <li class="has-sub-menu">
               <a href="#">
                 <div class="icon-w">
                   <div class="os-icon os-icon-coins-4"></div>
                 </div>
-                <span>Billing</span></a>
-              <div class="sub-menu-w">
-                <div class="sub-menu-header">
-                  Billing
-                </div>
-                <div class="sub-menu-icon">
-                  <i class="os-icon os-icon-coins-4"></i>
-                </div>
-                <div class="sub-menu-i">
-                  <ul class="sub-menu">
-                    <li>
-                      <a href="uikit_modals.html">My Invoices</a>
-                    </li>
-                    <li>
-                      <a href="uikit_alerts.html">Payment Methods</a>
-                    </li>
-                    <li>
-                      <a href="uikit_grid.html">Change Plan</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                <span>Billing</span>
+              </a>
+              <ul class="sub-menu">
+                <li>
+                  <a href="misc_invoice.html">My Invoices</a>
+                </li>
+                <li>
+                  <a href="rentals_index_grid.html">Payment Methods</a>
+                </li>
+                <li>
+                  <a href="misc_charts.html">Change Plan</a>
+                </li>
+
+              </ul>
             </li>
-            <li class=" has-sub-menu">
+            <li class="has-sub-menu">
               <a href="#">
                 <div class="icon-w">
                   <div class="os-icon os-icon-life-buoy"></div>
                 </div>
-                <span>Support</span></a>
-              <div class="sub-menu-w">
-                <div class="sub-menu-header">
-                  Support
-                </div>
-                <div class="sub-menu-icon">
-                  <i class="os-icon os-icon-life-buoy"></i>
-                </div>
-                <div class="sub-menu-i">
-                  <ul class="sub-menu">
-                    <li>
-                      <a href="emails_welcome.html">Create New Ticket</a>
-                    </li>
-                    <li>
-                      <a href="emails_order.html">Check Ticket Status</a>
-                    </li>
-                    <li>
-                      <a href="emails_payment_due.html">Knowledge Base</a>
-                    </li>
-                    <li>
-                      <a href="emails_forgot.html">Community</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                <span>Support</span>
+              </a>
+              <ul class="sub-menu">
+                <li>
+                  <a href="uikit_modals.html">Create new ticket</a>
+                </li>
+                <li>
+                  <a href="uikit_alerts.html">Check ticket status</a>
+                </li>
+                <li>
+                  <a href="uikit_grid.html">Knowledge base</a>
+                </li>
+                <li>
+                  <a href="uikit_progress.html">Community</a>
+                </li>
+
+              </ul>
             </li>
+
             <li class="">
               <a href="#">
                 <div class="icon-w">
                   <div class="os-icon os-icon-users"></div>
                 </div>
-                <span>Settings</span></a>
-              
+                <span>Settings</span>
+              </a>
+
             </li>
-           
+
           </ul>
-          
+          <!--------------------
+            END - Mobile Menu List
+            -------------------->
+
         </div>
-        <!--------------------
+      </div>
+      <!--------------------
+        END - Mobile Menu
+        -------------------->
+      <!--------------------
+        START - Main Menu
+        -------------------->
+      <div
+        class="menu-w color-scheme-light color-style-default menu-position-side menu-layout-mini menu-side-left menu-layout-full sub-menu-style-over sub-menu-color-bright selected-menu-color-light menu-activated-on-hover menu-has-selected-link">
+        <div class="logo-w">
+          <a class="logo" href="index.html">
+            <img src="ui/logo.png">
+
+          </a>
+        </div>
+        <div class="logged-user-w avatar-inline">
+          <div class="logged-user-i">
+            <div class="avatar-w">
+              <img alt="" src="ui/img/avatar1.jpg">
+            </div>
+            <div class="logged-user-info-w">
+              <div class="logged-user-name">
+                John Doe
+              </div>
+              <div class="logged-user-role">
+                [Company Name]
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <h1 class="menu-page-header">
+          Page Header
+        </h1>
+        <ul class="main-menu">
+          <li class="sub-header">
+            <span>Menu</span>
+          </li>
+          <li class="selected">
+            <a href="index.html">
+              <div class="icon-w">
+                <div class="os-icon os-icon-layout"></div>
+              </div>
+              <span>Dashboard</span>
+            </a>
+
+          </li>
+          <li class="sub-header">
+            <span>Sign</span>
+          </li>
+          <li class=" has-sub-menu">
+            <a href="apps_bank.html">
+              <div class="icon-w">
+                <div class="os-icon os-icon-tasks-checked"></div>
+              </div>
+              <span>Sign Documents</span>
+            </a>
+            <div class="sub-menu-w">
+              <div class="sub-menu-header">
+                Sign documents
+              </div>
+              <div class="sub-menu-icon">
+                <i class="os-icon os-icon-tasks-checked"></i>
+              </div>
+              <div class="sub-menu-i">
+                <ul class="sub-menu">
+                  <li>
+                    <a href="apps_email.html">Just Me</a>
+                  </li>
+                  <li>
+                    <a href="apps_support_dashboard.html">Me & Others</a>
+                  </li>
+                  <li>
+                    <a href="apps_support_index.html">Just others</a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class=" u">
+            <a href="#">
+              <div class="icon-w">
+                <div class="os-icon os-icon-file-text"></div>
+              </div>
+              <span>Documents</span>
+            </a>
+
+          </li>
+
+          <li class="sub-header">
+            <span>My Profile</span>
+          </li>
+          <li class=" has-sub-menu">
+            <a href="#">
+              <div class="icon-w">
+                <div class="os-icon os-icon-coins-4"></div>
+              </div>
+              <span>Billing</span>
+            </a>
+            <div class="sub-menu-w">
+              <div class="sub-menu-header">
+                Billing
+              </div>
+              <div class="sub-menu-icon">
+                <i class="os-icon os-icon-coins-4"></i>
+              </div>
+              <div class="sub-menu-i">
+                <ul class="sub-menu">
+                  <li>
+                    <a href="uikit_modals.html">My Invoices</a>
+                  </li>
+                  <li>
+                    <a href="uikit_alerts.html">Payment Methods</a>
+                  </li>
+                  <li>
+                    <a href="uikit_grid.html">Change Plan</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class=" has-sub-menu">
+            <a href="#">
+              <div class="icon-w">
+                <div class="os-icon os-icon-life-buoy"></div>
+              </div>
+              <span>Support</span>
+            </a>
+            <div class="sub-menu-w">
+              <div class="sub-menu-header">
+                Support
+              </div>
+              <div class="sub-menu-icon">
+                <i class="os-icon os-icon-life-buoy"></i>
+              </div>
+              <div class="sub-menu-i">
+                <ul class="sub-menu">
+                  <li>
+                    <a href="emails_welcome.html">Create New Ticket</a>
+                  </li>
+                  <li>
+                    <a href="emails_order.html">Check Ticket Status</a>
+                  </li>
+                  <li>
+                    <a href="emails_payment_due.html">Knowledge Base</a>
+                  </li>
+                  <li>
+                    <a href="emails_forgot.html">Community</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="">
+            <a href="#">
+              <div class="icon-w">
+                <div class="os-icon os-icon-users"></div>
+              </div>
+              <span>Settings</span>
+            </a>
+
+          </li>
+
+        </ul>
+
+      </div>
+      <!--------------------
         END - Main Menu
         -------------------->
-        <div class="content-w">
-          <!--------------------
+      <div class="content-w">
+        <!--------------------
           START - Top Bar
           -------------------->
         <div class="top-bar color-scheme-transparent">
-            <!--------------------
+          <!--------------------
             START - Top Menu Controls
             -------------------->
-            
-            <!--------------------
+
+          <!--------------------
             END - Top Menu Controls
             -------------------->
-          </div>
-          <!--------------------
+        </div>
+        <!--------------------
           END - Top Bar
-          --------------------><!--------------------
+          -------------------->
+        <!--------------------
           START - Breadcrumbs
           -------------------->
-     
-          <!--------------------
+
+        <!--------------------
           END - Breadcrumbs
           -------------------->
-          <div class="content-panel-toggler">
-            <i class="os-icon os-icon-grid-squares-22"></i><span>Sidebar</span>
-          </div><br><br><br><br>
-        
-          <div class="content-i">
-            <div class="content-box">
-              <div class="support-index">
-                
-                <div class="support-ticket-content-w">
-                  <div class="support-ticket-content">
-                    <div class="support-ticket-content-header">
-                      <h3 class="ticket-header text-muted">
-                        Trsts Document ID: <%=trstsID%>
-                      </h3>
-                      <a class="back-to-index" href="#"><i class="os-icon os-icon-arrow-left5"></i><span>Back</span></a><a class="show-ticket-info" href="#"><span>Show Details</span><i class="os-icon os-icon-documents-03"></i></a>
-                    </div>
-                    <div class="ticket-thread">
-                      <div class="ticket-reply">
-                        
-                        <div  class="ticket-reply-content" style="height:600px; overflow-y: scroll;">
-                         
-                          <!-- <p>
-                          Document Holder
-                          </p> -->
-                          <!-- <div id="droppable"> -->
-                              <!-- <img id="droppable"  src="<%=imgpath%>" alt="Document Holder" /> -->
-                          <!-- </div> -->
-                          
-                          <div class="col" id="droppable">
-    
-                              <img id="i" src="<%=imgpath%>" />
-                    
-                            </div>
-                        </div>
-                        
-                      </div>
-                      
-                      <div class="ticket-reply">
-                        <div class="ticket-reply-info">
-                          <div class="actions" href="#">
-                            <div class="actions-list">
-                             
-                            </div>
-                          </div>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-                  <div class="support-ticket-info">
-                    
-                    <div class="customer">
-                       <h5 class="info-header">
+        <div class="content-panel-toggler">
+          <i class="os-icon os-icon-grid-squares-22"></i><span>Sidebar</span>
+        </div>
+
+        <div class="content-i">
+          <div class="content-box">
+            <div class="support-index">
+
+              <div class="support-ticket-content-w" style="display: block">
+
+                <div class="support-ticket-info" style="width: 100%;float:left;padding: 5px 15px">
+
+                  <div class="customer" style="padding-bottom: 5px;margin-bottom: 5px;">
+                    <h5 class="info-header">
                       Add to the document
                     </h5>
-                    <div class="info-section">
+                    <div class="info-section" style="margin: 0 5px">
 
-                       
-                           
-                       <ul class="users-list as-tiles">
-                        <!-- <li >
-                          <a class="author with-avatar drag" >
-                            <div class="avatar" style="background-image: url(&#39;ui/img/sign.png&#39;)"></div>
-                            <span ><h6>Signature</h6></span></a>
-                        </li> -->
-                        <!-- <li class="drag"> <a class="author with-avatar" >
-                            <div class="avatar" style="background-image: url(&#39;ui/img/sign.png&#39;)"></div>
-                            <span ><h6>Signature</h6></span></a>
+
+
+                      <!-- <ul class="users-list as-tiles" style="display: flex;flex-wrap:wrap"> 
+                      <li style="margin: 0 10px; flex: 20%">
+                             
+                              <a class="draggable" id="drag-1" >
+                                <div class="avatar" style="background-image: url(&#39;ui/img/sign.png&#39;)"></div>
+                                <span ><h6>Signature</h6></span></a>
+                              
+                            </li> 
+                          
+                            <li class="dr" style="margin: 0 10px; flex: 20%">
+                              <a class="author with-avatar" >
+                                <div class="avatar" style="background-image: url(&#39;ui/img/initials.png&#39;)"></div>
+                                <span><h6>Initials</h6></span></a>
+                            </li>
+                            <li style="margin: 0 10px; flex: 20%">
+                              <a class="author with-avatar" href="#">
+                                <div class="avatar" style="background-image: url(&#39;ui/img/date.png&#39;)"></div>
+                                <span class="dr"><h6>Date</h6></span></a>
+                            </li>
+                            <li style="margin: 0 10px; flex: 20%">
+                              <a class="author with-avatar" href="#">
+                                <div class="avatar" style="background-image: url(&#39;ui/img/text.png&#39;)"></div>
+                                <span><h6 class="dr">Textbox</h6></span></a>
+                            </li>
                             
-                          
-                        </li> -->
-                        <li><span id="drag2" class="drag">
-                          <img src="ui/img/sign.jpeg" width="20px" height="20px" />
-                          Signature
-                          
-                        </span>
-                      </li>
-                        <li class="drag">
-                          <a class="author with-avatar" >
-                            <div class="avatar" style="background-image: url(&#39;ui/img/initials.png&#39;)"></div>
-                            <span><h6>Initials</h6></span></a>
-                        </li>
-                        <li>
-                          <a class="author with-avatar" href="#">
-                            <div class="avatar" style="background-image: url(&#39;ui/img/date.png&#39;)"></div>
-                            <span class="drag"><h6>Date</h6></span></a>
-                        </li>
-                        <li>
-                          <a class="author with-avatar" href="#">
-                            <div class="avatar" style="background-image: url(&#39;ui/img/text.png&#39;)"></div>
-                            <span><h6 class="drag">Textbox</h6></span></a>
-                        </li>
-                        
-                      </ul> 
-                      <!-- <div id="drag-list" class="drag-list">
-                          <ul class="list-inline">
-                              <li><span id="drag2" class="drag" id="openForm">
-                                  <img src="ui/img/sign.jpeg" width="20px" height="20px" />
-                                  Signature
-                                  
-                                </span>
-                              </li>
-                            <li><span id="drag2" class="drag" id="openForm">
-                                <img src="ui/img/sign.jpeg" width="20px" height="20px" />
-                                Signature
-                                
-                              </span>
-                            </li>
-                            <li><span id="drag3" class="drag">
-                                <img src="ui/img/date.png" width="20px" height="20px" />
-                                Initals
-                                <img src="http://placehold.it/80x80/00810C/fff&text=3" width="100%" height="100%" />
-                              </span>
-                            </li>
-                            <li>
-                              <span id="drag4" class="drag">
-                                  <img src="ui/img/date.png" width="20px" height="20px" />
-                                Date
-                                <img src="http://placehold.it/80x80/00810C/fff&text=3" width="100%" height="100%" />
-                              </span>
-                            </li>
-                          </ul>
-                        </div> -->
-                      <!-- </div> -->
-                    
-                      <h4 id="docname" class="customer-name">
-                        <%=docname%>
-                      </h4>
-                      <div class="customer-tickets">
-                       <%=docdesc%>
+                          </ul>  -->
+
+                      <div id="drag-list">
+                        <ul class="list-inline" style="display: inline-flex;flex-wrap:wrap;margin: 0 auto;width: 80%;z-index: 5;">
+                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;"><span id="drag2" class="drag" id="openForm">
+                              <img src="ui/img/sign.jpeg" width="20px" height="20px" />
+                              Signature
+
+                            </span>
+                          </li>
+                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;"><span id="drag2" class="dr" id="openForm">
+                              <img src="ui/img/sign.jpeg" width="20px" height="20px" />
+                              Signature
+
+                            </span>
+                          </li>
+                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;"><span id="drag3" class="drag">
+                              <img src="ui/img/date.png" width="20px" height="20px" />
+                              Initals
+                              <!-- <img src="http://placehold.it/80x80/00810C/fff&text=3" width="100%" height="100%" /> -->
+                            </span>
+                          </li>
+                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;">
+                            <span id="drag4" class="drag">
+                              <img src="ui/img/date.png" width="20px" height="20px" />
+                              Date
+                              <!-- <img src="http://placehold.it/80x80/00810C/fff&text=3" width="100%" height="100%" /> -->
+                            </span>
+                          </li>
+                        </ul>
                       </div>
                     </div>
+
+                    <h4 id="docname" class="customer-name">
+                      <%=docname%>
+                    </h4>
+                    <div class="customer-tickets">
+                      <%=docdesc%>
+                    </div>
+                  </div>
+
+                  
+
+                </div>
+                <div class="support-ticket-content" style="margin: 0 auto;clear:both;width:70%;flaot:none">
+                  <div class="support-ticket-content-header" style="margin-bottom: 0px">
+                    <h4 class="ticket-header text-muted">
+                      Trsts Document ID: <%=trstsID%>
+                    </h4>
+                    <a class="back-to-index" href="#"><i class="os-icon os-icon-arrow-left5"></i><span>Back</span></a><a
+                      class="show-ticket-info" href="#"><span>Show Details</span><i
+                        class="os-icon os-icon-documents-03"></i></a>
+                  </div>
+                  <div class="ticket-thread">
+                    <div class="ticket-reply">
+
+                      <!-- <div  class="ticket-reply-content" style="height:600px; overflow-y: scroll;"> -->
+
+                      <!-- <p>
+                          Document Holder
+                          </p> -->
+                      <div id="droppable" style="position: relative;z-index: 0;">
+                        <img src="<%=imgpath%>" alt="Document Holder" style="z-index: 0"/>
+                      </div>
+
+                      <!-- <div class="col" id="put" class="dropzone">
+    
+                              <img id="img" src="<%=imgpath%>" />
                     
-                    <div class="info-section text-center">
-                      
-                   
+                            </div> -->
+                      <!-- </div> -->
+
+                    </div>
+
+
+                  </div>
+                  <div class="info-section text-center">
+
+
                       <div class="value">
                         <button class="mr-2 mb-2 btn btn-outline-primary btn-lg" type="button"> Send for Signing</button>
                       </div>
                     </div>
-                   
-                  </div>
                 </div>
+
+
+
+
               </div>
-        
             </div>
+
           </div>
         </div>
       </div>
-      <div class="display-type"></div>
     </div>
+    <div class="display-type"></div>
+  </div>
 
-   
 
-    <script>
-  	var x = null;
-    //Make element draggable
+
+
+</body>
+<!-- <script>
+ 
+ $(document).ready(function(){
+  $('#dr').draggable({helper:'clone',
+  containment: '#put'});
+ });
+
+ $('#put').droppable({
+   accept:'#dr',
+   activeClass: "drop-area",
+   drop:function(ev,ui){
+  //   var droppedItem = $(ui.draggable).clone();
+  $(this).append(droppedItem);  
+     droppedItem = ui.helper.clone();
     
-		$(".drag").draggable({
-			helper: 'clone',
-			cursor: 'move',
-			tolerance: 'fit',
-     
-      
-     
-		});
-    $('.drag').css("position","relative");
-		$("#droppable").droppable({
-			accept: '.drag',
-			activeClass: "drop-area",
-			drop: function (e, ui) {
-				if ($(ui.draggable)[0].id != "") {
-
-
-					x = ui.helper.clone();
 					ui.helper.remove();
-					x.draggable({
+         
+     droppedItem.draggable({
 						helper: 'original',
 						cursor: 'move',
-						containment: '#droppable',
+						containment: '#put',
 						tolerance: 'fit',
 						drop: function (event, ui) {
 							$(ui.draggable).remove();
 						}
 					});
-                    
-					x.resizable({
-						maxHeight: $('#droppable').height(),
-						maxWidth: $('#droppable').width()
-					});
-					x.addClass('remove');
-					var el = $("<span><a href='Javascript:void(0)' class=\"xicon delete\" title=\"Remove\">X</a></span>");
-					$(el).insertBefore($(x.find('img')));
-					x.appendTo('#droppable');
-					$('.delete').on('click', function () {
-						$(this).parent().parent('span').remove();
-					});
-					$('.delete').parent().parent('span').dblclick(function () {
-						$(this).remove();
-					});
-				}
-			}
-		});
-$('#droppable').css('position','relative');
-		$("#remove-drag").droppable({
-			drop: function (event, ui) {
-				$(ui.draggable).remove();
-			},
-			hoverClass: "remove-drag-hover",
-			accept: '.remove'
-		});
-$('.ui-draggable-dragging.').css('position','relative !important');
+         
+   }
+ });
+ </script> -->
 
-      </script>
-  </body>
- 
+<script>
 
-  
-    
+  // target elements with the "draggable" class
+  // interact('.draggable')
+  //   .draggable({
+  //     // enable inertial throwing
+  //     inertia: true,
+  //     // keep the element within the area of it's parent
+  //     modifiers: [
+  //       interact.modifiers.restrictRect({
+  //         restriction: 'parent',
+  //         endOnly: true
+  //       })
+  //     ],
+  //     // enable autoScroll
+  //     autoScroll: true,
+
+  //     // call this function on every dragmove event
+  //     onmove: dragMoveListener,
+  //     // call this function on every dragend event
+  //     onend: function (event) {
+  //       var textEl = event.target.querySelector('p')
+
+  //       textEl && (textEl.textContent =
+  //         'moved a distance of ' +
+  //         (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+  //                    Math.pow(event.pageY - event.y0, 2) | 0))
+  //           .toFixed(2) + 'px')
+  //     }
+  //   })
+
+  // function dragMoveListener (event) {
+  //   var target = event.target
+  //   // keep the dragged position in the data-x/data-y attributes
+  //   var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+  //   var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+  //   // translate the element
+  //   target.style.webkitTransform =
+  //     target.style.transform =
+  //       'translate(' + x + 'px, ' + y + 'px)'
+
+  //   // update the posiion attributes
+  //   target.setAttribute('data-x', x)
+  //   target.setAttribute('data-y', y)
+  // }
+
+  // // this is used later in the resizing and gesture demos
+  // window.dragMoveListener = dragMoveListener
+
+
+  // interact('.draggable')
+  //   .draggable({ manualStart: true })
+  //   .on('move', function (event) {
+  //     var interaction = event.interaction;
+
+  //     // if the pointer was moved while being held down
+  //     // and an interaction hasn't started yet
+  //     if (interaction.pointerIsDown && !interaction.interacting()) {
+  //       var original = event.currentTarget,
+  //           // create a clone of the currentTarget element
+  //           clone = event.currentTarget.cloneNode(true);
+
+  //       // insert the clone to the page
+  //       // TODO: position the clone appropriately
+  //       document.body.appendChild(clone);
+
+  //       // start a drag interaction targeting the clone
+  //       interaction.start({ name: 'drag' },
+  //                         event.interactable,
+  //                         clone);
+  //     }
+  //   });
+
+
+  // enable draggables to be dropped into this
+  // interact('.dropzone').dropzone({
+  //   // only accept elements matching this CSS selector
+  //   accept: '#drag-1',
+  //   // Require a 75% element overlap for a drop to be possible
+  //   overlap: 0.75,
+
+  //   // listen for drop related events:
+
+  //   ondropactivate: function (event) {
+  //     // add active dropzone feedback
+  //     event.target.classList.add('drop-active')
+  //   },
+  //   ondragenter: function (event) {
+  //     var draggableElement = event.relatedTarget
+  //     var dropzoneElement = event.target
+
+  //     // feedback the possibility of a drop
+  //     dropzoneElement.classList.add('drop-target')
+  //     draggableElement.classList.add('can-drop')
+  //     draggableElement.textContent = 'Dragged in'
+  //   },
+  //   ondragleave: function (event) {
+  //     // remove the drop feedback style
+  //     event.target.classList.remove('drop-target')
+  //     event.relatedTarget.classList.remove('can-drop')
+  //     event.relatedTarget.textContent = 'Dragged out'
+  //   },
+  //   ondrop: function (event) {
+  //     event.relatedTarget.textContent = 'Dropped'
+  //   },
+  //   ondropdeactivate: function (event) {
+  //     // remove active dropzone feedback
+  //     event.target.classList.remove('drop-active')
+  //     event.target.classList.remove('drop-target')
+  //   }
+  // })
+
+  var x = null;
+  //Make element draggable
+  $(".drag").draggable({
+    helper: 'clone',
+    cursor: 'move',
+    tolerance: 'fit',
+    revert: true
+  });
+
+  $("#droppable").droppable({
+    accept: '.drag',
+    activeClass: "drop-area",
+    drop: function (e, ui) {
+      if ($(ui.draggable)[0].id != "") {
+
+
+        x = ui.helper.clone();
+        ui.helper.remove();
+        x.draggable({
+          helper: 'original',
+          cursor: 'move',
+       //   containment: '#droppable',
+          tolerance: 'fit',
+          drop: function (event, ui) {
+            $(ui.draggable).remove();
+          }
+        });
+
+        x.resizable({
+          maxHeight: $('#droppable').height(),
+          maxWidth: $('#droppable').width()
+        });
+        x.addClass('remove');
+        var el = $("<span><a href='Javascript:void(0)' class=\"xicon delete\" title=\"Remove\">X</a></span>");
+       var select = $('<select> <option value="1">1</option>\
+                \<option value="2">2</option></select>');
+                $(select).insertAfter($(x.find('img')));
+        $(el).insertAfter($(x.find('img')));
+        x.appendTo('#droppable');
+        $('.delete').on('click', function () {
+          $(this).parent().parent('span').remove();
+        });
+        $('.delete').parent().parent('span').dblclick(function () {
+          $(this).remove();
+        });
+      }
+    }
+  });
+
+  $("#remove-drag").droppable({
+    drop: function (event, ui) {
+      $(ui.draggable).remove();
+    },
+    hoverClass: "remove-drag-hover",
+    accept: '.remove'
+  });
+</script>
+
 </html>

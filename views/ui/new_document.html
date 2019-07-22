@@ -194,7 +194,7 @@
                 Maria Gomez
               </div>
               <div class="logged-user-role">
-                [Company Name]
+                
               </div>
             </div>
           </div>
@@ -327,8 +327,9 @@
                 <%=un%>
               </div>
               <div class="logged-user-role">
-                [Company Name]
+                
               </div>
+              <input type="hidden" id="loggedrole" value="<%=loggedrole%>">
             </div>
 
           </div>
@@ -684,7 +685,7 @@
                     </div>
                     <div class="col-sm-4">
                       <div class="form-group">
-                        <label for="">Email</label><input name="signemail" class="form-control" placeholder="Email" type="email"
+                        <label for="">Email</label><input id="signemail" name="signemail" class="form-control" placeholder="Email" type="email"
                           required>
                       </div>
                     </div>
@@ -699,7 +700,7 @@
                     </div>
                     <div class="col-sm-4">
                       <div class="form-group">
-                        <input name="secemail"class="form-control" placeholder="Email" type="email" required>
+                        <input id="secemail" name="secemail"class="form-control" placeholder="Email" type="email" required>
                       </div>
                     </div>
                   </div>
@@ -712,7 +713,7 @@
 
                   </div>
                   <div class="col-sm-4">
-                    <a id="add_field_button" class="btn btn-primary btn-sm" href="#"><i
+                    <a id="add_field_button" class="btn btn-primary btn-sm" href="#" style="margin: 20px;"><i
                         class="os-icon os-icon-ui-22"></i><span>Add another signer</span></a>
                   </div>
                 </div>
@@ -764,6 +765,9 @@
   <script src="ui/bower_components/bootstrap/js/dist/popover.js"></script>
   <script src="ui/js/demo_customizer.js?version=4.4.0"></script>
   <script src="ui/js/main.js?version=4.4.0"></script>
+  <script type="text/javascript" src="pnotify/dist/iife/PNotify.js"></script>
+  <script type="text/javascript" src="pnotify/dist/iife/PNotifyButtons.js"></script>
+  <script type="text/javascript" src="pnotify/dist/umd/PNotifyStyleMaterial.js"></script>
   <script>
     // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -808,7 +812,12 @@
         console.log('print');
        
    //   });
+   $(document).ready(function(){
+    $('.logged-user-role').text($('#loggedrole').val());
+   });
    $(document).on("click", "a.remove_field" , function() {
+
+  
      console.log('deleted');
             $(this).parent().remove();
             x--;
@@ -816,11 +825,33 @@
         });
 
       $('#proceedbtn').click(function () {
+        var x = 0;
         console.log('clicked');
         $('#doctitle').val($('#dtitle').val());
         var d = $('#ddesc').val();
         $('#docdesc').val(d);
         //  var d = $('#')
+        $('#proceed').submit(function(){
+          PNotify.removeAll();
+          if($('#signemail').val() == $('#secemail').val()){
+            
+            event.preventDefault();
+            if(x==0){
+              PNotify.info({
+        addClass:'pnotify-center',
+				title: '',
+				text: 'please add different signeers email id',
+				styling : 'material',
+				icon    : 'material',
+				delay: 1000
+                 
+			});
+            }
+       
+      x = 1;
+
+          }
+        });
       });
 
     });

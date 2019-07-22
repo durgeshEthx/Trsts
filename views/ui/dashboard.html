@@ -64,7 +64,7 @@
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="">Your Role</label><select class="form-control" name="role">
+                          <label for="">Your Role</label><select class="form-control" name="role" value="" id="rl">
                             <option>
                               Developer
                             </option>
@@ -310,7 +310,7 @@
                   Maria Gomez
                 </div>
                 <div class="logged-user-role">
-                  [Company Name]
+                 
                 </div>
               </div>
             </div>
@@ -434,8 +434,9 @@
                   <%=un%>
                 </div>
                 <div class="logged-user-role">
-                  [Company Na]
+                 
                 </div>
+                <input type="hidden" id="loggedrole" value="<%=loggedrole%>">
               </div>
             
             </div>
@@ -1132,6 +1133,7 @@
     <script src="ui/bower_components/bootstrap/js/dist/popover.js"></script>
     <script src="ui/js/demo_customizer.js?version=4.4.0"></script>
     <script src="ui/js/main.js?version=4.4.0"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>           -->
     <script>
       // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -1143,23 +1145,41 @@
     </script>
   <script>
       $(document).ready(function(){
+        $('.logged-user-role').text($('#loggedrole').val());
+
+
           if($('#slick').val()==1){
             console.log('sdfg');
             $('#introform').hide();
             $('.modal-backdrop.fade.show').hide();
+          } else{
+            if($('#slick').val()==0){
+              $('#introform').show();
+            $('.modal-backdrop.fade.show').show();
+            }
           }
 
           $('.slick-next.slick-arrow').click(function(){
             console.log('next clicked'+$('#cn').val());
             $('.logged-user-role').text($('#cn').val());
-            var form = $('#introform').closest("introform");
-   
-             form.submit();
+            $.ajax({
+            type: 'GET',
+            url: '/dashboard',
+            data: {companyname:$('#cn').val() , role:$('#rl').val()},
+            dataType: "json",
+            success: function (response) {
+              alert("a");
+            
+              
+      
+            }
+          });
+         
           //  $('.modal-backdrop.fade.show').css("display","none");
           //  $('.modal-content.text-center').css("display","none");
             
             
-          })
+          });
 
 
         console.log('resend');

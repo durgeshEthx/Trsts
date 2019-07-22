@@ -58,10 +58,31 @@
                  
 			});
               };
-              if(response.verified == '0'){
-                PNotify.success({
+              if(response.status == '0'){
+                PNotify.error({
 				title: 'Alert!',
-				text: 'Please verify your email to login',
+				text: 'Your account is not active',
+				styling : 'material',
+				icon    : 'material',
+				delay: 5000
+                 
+			});
+              }
+
+              if(response.Success == 'This Email Is not regestered!'){
+                PNotify.error({
+				title: 'Alert!',
+				text: response.Success + 'Please register to login',
+				styling : 'material',
+				icon    : 'material',
+				delay: 5000
+                 
+			});
+              }
+              if(response.Success == 'Wrong password!'){
+                PNotify.error({
+				title: 'Alert!',
+				text: response.Success + 'Please enter correct password to login',
 				styling : 'material',
 				icon    : 'material',
 				delay: 5000

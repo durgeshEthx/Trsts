@@ -28956,6 +28956,11 @@ ul li {
   list-style: none;
 }
 
-
+.pnotify-center {
+  right: calc(50% - 150px) !important;
+}
+[ui-pnotify].ui-pnotify.stack-bar-top {
+  width: 100%;
+}
 /* ##. User Override Styles */
 /*# sourceMappingURL=main.css.map */

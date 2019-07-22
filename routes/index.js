@@ -30,7 +30,7 @@ const user_money_wallet = require('../models/user_money_wallet');
 const otp = require('../models/otp');
 const wallet_address = require('../models/wallet_address');
 const audit_trail = require('../models/audit_trail');
-const signee  = require('../models/signee');
+const signee = require('../models/signee');
 var recaptcha = new Recaptcha('6LegEqkUAAAAAM26uqgIyMEXH5ujQDY53okuRKgB', '6LegEqkUAAAAAC3G_m7NXeWTCIOPH0Gfk2CmVUbo', { callback: 'cb' });
 
 /*
@@ -126,7 +126,7 @@ router.post('/', function (req, res) {
 					//res.render(('emailver.ejs'))
 				} else {
 					console.log('test1' + data);
-					res.send({success:'ar'});
+					res.send({ success: 'ar' });
 					p('after send')
 					//res.render('index0.ejs', { username: personInfo.username, country: personInfo.country });
 					//res.send({ "Success": "Email is already used." });
@@ -141,63 +141,67 @@ router.post('/', function (req, res) {
 router.get('/dashboard', function (req, res) {
 
 	// res.render('dashboard.ejs');
-	p('your comapny '+req.query.companyname);
-	p('role '+req.query.role);
+	p('your comapny ' + req.query.companyname);
+	p('role ' + req.query.role);
 	var username;
 
-	if(req.query.companyname != undefined && req.query.role != undefined){
+	if (req.query.companyname != undefined && req.query.role != undefined) {
 
 		p('inside company');
-	User.findOne({email:req.session.email},function(err,data){
-		if(data){
-			
-			username = data.fullname;
-			p('un '+username);
-			userdetail.findOne({uid:data._id},function(err,userd){
-				p('inside get');
-			p(req.session.email);
-				userd.company = req.query.companyname;
-				userd.position = req.query.role;
-				userd.save(function(err,res){
-					if(err){
-						p(err);
-					}else{
-						p(res);
-					}
-				});
-				res.render('dashboard.ejs',{un:username,email_verified:1,slick:1});
-			});
-		}else{
-			
-			res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
-		}
-	});
-}else{
-	p('session '+req.session.email)
-	User.findOne({email:req.session.email},function(err,data){
-		if(data){
-			username = data.fullname;
-		
-			userdetail.findOne({uid:data._id},function(err,userd){
-				
-			
-				if(userd.company != "" && userd.position != ""){
-					res.render('dashboard.ejs',{un:username,email_verified:1,slick:1});
-				}else{
-					res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
-				}
-				 
-				
-				
-			});
+		User.findOne({ email: req.session.email }, function (err, data) {
+			if (data) {
 
-		}
-		//res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
-	});
-	p('else');
-	
-}
-	
+				username = data.fullname;
+				p('un ' + username);
+				userdetail.findOne({ uid: data._id }, function (err, userd) {
+					p('inside get');
+					p(req.session.email);
+					userd.company = req.query.companyname;
+					userd.position = req.query.role;
+					userd.save(function (err, res) {
+						if (err) {
+							p(err);
+						} else {
+							p(res);
+						}
+					});
+					p('1')
+					res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 1, loggedrole: userd.company });
+				});
+			} else {
+				p('2')
+				res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 0, loggedrole: '' });
+			}
+		});
+	} else {
+		p('session ' + req.session.email)
+		User.findOne({ email: req.session.email }, function (err, data) {
+			if (data) {
+				username = data.fullname;
+
+				userdetail.findOne({ uid: data._id }, function (err, userd) {
+
+
+					if (userd.company != "" && userd.position != "") {
+						p('3')
+						p(userd.position);
+						res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 1, loggedrole: userd.position });
+					} else {
+						p('4')
+						res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 0, loggedrole: "" });
+					}
+
+
+
+				});
+
+			}
+			//res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
+		});
+		p('else');
+
+	}
+
 });
 
 //upadtes the billing collection when plan not choosed
@@ -208,21 +212,21 @@ router.post('/dashboard', function (req, res) {
 	const start_date = Date.now();
 	//const end_date = "";//Date.setDate(start_date + 30);
 	//var newDate = new Date(start_date.setTime( start_date.getTime() + 30 * 86400000 ));
-    User.findOne({email:req.session.email},function(err,data){
-		if(data){
+	User.findOne({ email: req.session.email }, function (err, data) {
+		if (data) {
 			var uid = data._id;
 			p(uid);
-			billing.findOne({uid:uid},function(err,billingPlans){
+			billing.findOne({ uid: uid }, function (err, billingPlans) {
 				billingPlans.plan = planname;
 				billingPlans.start_date = start_date;
 				billingPlans.end_date = "";
 				billingPlans.plan_type = plantype;
 				billingPlans.status = 1;
 
-				billingPlans.save(function(err,billing){
-					if(err){
+				billingPlans.save(function (err, billing) {
+					if (err) {
 						p(err);
-					}else{
+					} else {
 						p(billing);
 					}
 				});
@@ -231,17 +235,17 @@ router.post('/dashboard', function (req, res) {
 			//	res.render('dashboard.ejs',{un:data.fullname,email_verified:data.email_verified});
 			// }
 			username = data.fullname;
-		
-			userdetail.findOne({uid:data._id},function(err,userd){
-				
-			
-				if(userd.company != "" && userd.position != ""){
-					res.render('dashboard.ejs',{un:username,email_verified:1,slick:1});
-				}else{
-					res.render('dashboard.ejs',{un:username,email_verified:1,slick:0});
+
+			userdetail.findOne({ uid: data._id }, function (err, userd) {
+
+				p('userd company +' + userd.company)
+				if (userd.company != "" && userd.position != "") {
+					res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 1, loggedrole: userd.company });
+				} else {
+					res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 0, loggedrole: userd.company });
 				}
 			});
-			}
+		}
 	});
 
 	//res.render('dashboard.ejs',{email_verified:1});
@@ -250,22 +254,22 @@ router.get('/plans', function (req, res) {
 	const country = req.body.country;
 	console.log('c' + country);
 	var currency;
-	User.findOne({email:req.session.email},function(err,data){
-		if(data){
+	User.findOne({ email: req.session.email }, function (err, data) {
+		if (data) {
 			var uid = data._id;
-			userdetail.findOne({uid:uid},function(err,userde){
-				if(userde){
+			userdetail.findOne({ uid: uid }, function (err, userde) {
+				if (userde) {
 					currency = userde.currency;
-					res.render('plans.ejs', {country:currency});
-				}else{
+					res.render('plans.ejs', { country: currency });
+				} else {
 
 				}
 			});
-		}else{
+		} else {
 
 		}
 	});
-	
+
 });
 router.get('/verify', function (req, res) {
 	console.log(req.query.id + "&" + '');
@@ -299,23 +303,23 @@ router.get('/login', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 	console.log(req.body);
-p('inside login');
+	p('inside login');
 	User.findOne({ email: req.body.email }, function (err, data) {
 		if (data) {
-			if(data.email_verified == 1){
-			if (data.password == req.body.password) {
-				//console.log("Done Login");
-				req.session.userId = data.unique_id;
-				//console.log(req.session.userId);
-				req.session.email = req.body.email;
-				res.send({ "Success": "Success!" });
+			if (data.status == 1) {
+				if (data.password == req.body.password) {
+					//console.log("Done Login");
+					req.session.userId = data.unique_id;
+					//console.log(req.session.userId);
+					req.session.email = req.body.email;
+					res.send({ "Success": "Success!" });
 
+				} else {
+					res.send({ "Success": "Wrong password!" });
+				}//
 			} else {
-				res.send({ "Success": "Wrong password!" });
-			}//
-		}else{
-			res.send({'verified':'0'});
-		}
+				res.send({ 'status': '0' });
+			}
 
 		} else {
 			res.send({ "Success": "This Email Is not regestered!" });
@@ -359,7 +363,23 @@ router.get('/profile', function (req, res, next) {
 
 		} else {
 			//console.log("found");
-			return res.render('new_document.ejs', {un: data.fullname, email: data.email });
+			userdetail.findOne({ uid: data._id }, function (err, userd) {
+
+
+				if (userd.company != "" && userd.position != "") {
+					//p('3')
+					p(userd.position);
+					//	res.render('dashboard.ejs',{un:username,email_verified:1,slick:1,loggedrole:userd.position});
+					res.render('new_document.ejs', { loggedrole: userd.company, un: data.fullname, email: data.email });
+				} else {
+					res.render('new_document.ejs', { loggedrole: "", un: data.fullname, email: data.email });
+				}
+
+
+
+			});
+
+
 		}
 	});
 });
@@ -384,53 +404,53 @@ router.get('/forgetpass', function (req, res, next) {
 	// res.render("resetpwd.ejs");
 	res.render('forget0.ejs');
 });
-router.post('/reset',function(req,res){
+router.post('/reset', function (req, res) {
 	var info = req.body;
-	if(info.newpwd == info.cnfpwd){
-		User.findOne({email:req.session.email},function(err,data){
-			if(data){
+	if (info.newpwd == info.cnfpwd) {
+		User.findOne({ email: req.session.email }, function (err, data) {
+			if (data) {
 				data.password = info.newpwd;
 				data.passwordConf = info.cnfpwd;
-				data.save(function(err,result){
-					if(!err){
+				data.save(function (err, result) {
+					if (!err) {
 						p('pwd updated');
-					}else{
+					} else {
 						p('pwd not updated');
 					}
 				});
-			}else{
+			} else {
 
 			}
 		});
 		res.redirect('/login');
 	}
-	else{
+	else {
 		res.render('resetpwd.ejs');
 	}
 
 });
-router.get('/resetpassword',function(req,res){
+router.get('/resetpassword', function (req, res) {
 	res.render('resetpwd.ejs');
 });
-router.get('/verifypwdlink',function(req,res){
+router.get('/verifypwdlink', function (req, res) {
 	User.findOne({ email: req.query.email }, function (err, data) {
-		
+
 		if (data) {
 
-				console.log(req.query.id);
-				console.log(data.pwd_reset_code);
-				if (req.query.id == data.pwd_reset_code) {
-					res.session.email = req.query.email;
-					console.log('code matched');
-					data.pwd_reset_code = "";
-					data.save(function (err, result) {
-						
-						res.redirect('/resetpassword');
-					});
-				} else {
-					res.send('unauthorized user');
-				}
-			
+			console.log(req.query.id);
+			console.log(data.pwd_reset_code);
+			if (req.query.id == data.pwd_reset_code) {
+				res.session.email = req.query.email;
+				console.log('code matched');
+				data.pwd_reset_code = "";
+				data.save(function (err, result) {
+
+					res.redirect('/resetpassword');
+				});
+			} else {
+				res.send('unauthorized user');
+			}
+
 		}
 	});
 });
@@ -517,11 +537,11 @@ router.post('/signd', function (req, res) {
 	var imgpath = path.join('images', imgname);
 	imgpath = imgpath + '.png';
 	//......//
-	
+
 
 	// for logged in user
 	var document = new Document({
-		uid:getUser_id(req.session.email),
+		uid: getUser_id(req.session.email),
 		trstsID: waterMark,
 		title: info.doctitle,
 		comments: info.docdesc,
@@ -530,62 +550,61 @@ router.post('/signd', function (req, res) {
 		ip: getClientIp(req),
 		status: 1,
 	});
-	document.save(function(err,doc){
-		if(err)
-		{
+	document.save(function (err, doc) {
+		if (err) {
 			p(err);
-		}else{
+		} else {
 			p(doc);
 		}
-	});  
-	
-	
-    if(getUser_id(info.signemail) != ""){
+	});
+
+	// if signeer is registered...
+	if (getUser_id(info.signemail) != "") {
 		var uid = getUser_id(info.signemail);
 		createSignee(document._id, uid);
-	}else{
-		registerUser(info.signname,info.signemail, req, res);
+	} else {
+		registerUser(info.signname, info.signemail, req, res);
 		var uid = getUser_id(info.signemail);
 		createSignee(document._id, uid);
 	}
 
-	if(getUser_id(info.secemail) != ""){
+	if (getUser_id(info.secemail) != "") {
 		var uid = getUser_id(info.secemail);
-		createSignee(document._id,uid);
+		createSignee(document._id, uid);
 		// var signees = new signee({
 		// 	document_id:document._id,
 		// 	signee_uid:uid,
 		// 	status:1
 		// }) ;
 		// signees.save();
-	}else{
-		registerUser(info.secname,info.secemail, req, res);
+	} else {
+		registerUser(info.secname, info.secemail, req, res);
 		var uid = getUser_id(info.secemail);
-		createSignee(document._id,uid);
+		createSignee(document._id, uid);
 	}
-	
+
 	const count = info.count;
 	p(count);
-	for(var i =1; i<=count; i++){
-		p('count '+i);
-		if(getUser_id(info.email + i)){
+	for (var i = 1; i <= count; i++) {
+		p('count ' + i);
+		if (getUser_id(info.email + i)) {
 			var uid = getUser_id(info.email + i);
-			createSignee(document._id,uid);
+			createSignee(document._id, uid);
 			// var signees = new signee({
 			// 	document_id:document._id,
 			// 	signee_uid:uid,
 			// 	status:1
 			// }) ;
 			// signees.save();
-		}else{
-			registerUser(info.name +i,info.email + i, req, res);
+		} else {
+			registerUser(info.name + i, info.email + i, req, res);
 			var uid = getUser_id(info.email + i);
-			createSignee(document._id,uid);
+			createSignee(document._id, uid);
 		}
 	}
-	
-	
-		res.render('prepare.ejs',{ imgpath: imgpath,docname:info.doctitle,docdesc:info.docdesc,trstsID:waterMark});
+
+
+	res.render('prepare.ejs', { imgpath: imgpath, docname: info.doctitle, docdesc: info.docdesc, trstsID: waterMark });
 	//res.render('signd.ejs',{ imgpath: imgpath,name:name});//{ imgpath: imgpath, name: name }      
 });
 
@@ -595,13 +614,13 @@ router.post('/upload', function (req, res) {
 
 	upload(req, res, (error) => {
 		if (error) {
-			
-			  console.log('ERROR '+error.field);
+
+			console.log('ERROR ' + error.field);
 			// res.redirect('/profile');
 			//  res.render('sign_document.ejs');
 		} else {
 			if (req.file == undefined) {
-					  console.log(here);
+				console.log(here);
 				//res.redirect('/profile');
 				//res.render('sign_document.ejs');
 
@@ -678,6 +697,7 @@ router.post('/contactus', function (req, res) {
 	const info = req.body;
 
 	//check if user exists with email.
+
 	User.findOne({ email: req.session.email }, function (err, data) {
 
 		if (data) {
@@ -702,25 +722,29 @@ router.post('/contactus', function (req, res) {
 					console.log('contacts sucess');
 				}
 			});
+			p('hhhh')
+			//	res.redirect('/plans');
+			res.send({ success: 'Your query has been taken we will get back to you very soon, till then please check our Enterprise plan' });
 
 		}
 		else {
-
+			//	res.redirect('/plans');
+			res.send({ fail: 'please fill out all fields' });
 		}
-
+		p('hereee')
 	});
-	res.redirect('/plans');
+	//res.redirect('/plans');
 });
 
 
 module.exports = router;
 
 function createSignee(id, uid) {
-	p('uid '+uid);
+	p('uid ' + uid);
 	var signees = new signee({
 		document_id: id,
 		signee_uid: uid,
-		status: 1
+		status: 2
 	});
 	signees.save(function (err, signee) {
 		if (err) {
@@ -733,7 +757,7 @@ function createSignee(id, uid) {
 	return signees;
 }
 
-function registerUser(name,email, req, res) {
+function registerUser(name, email, req, res) {
 	var c;
 	User.findOne({}, function (err, data) {
 		if (data) {
@@ -959,7 +983,7 @@ function registerUser(name,email, req, res) {
 }
 
 function getUser_id(email) {
-	User.findOne({ email:email }, function (err, data) {
+	User.findOne({ email: email }, function (err, data) {
 		if (data) {
 			return data._id;
 		}
@@ -1060,9 +1084,9 @@ function sendMailForVerification(data, req, personInfo, res) {
 			//console.log('swal');
 			// res.redirect('/login');
 			req.session.email = personInfo.email;
-			res.send({success:'registered successfully !'});
+			res.send({ success: 'registered successfully !' });
 			//res.redirect('/plans');
-		//	res.send({ country: personInfo.country });
+			//	res.send({ country: personInfo.country });
 			//	res.render('plans.ejs',{country:personInfo.country});
 		}
 	});
@@ -1082,7 +1106,7 @@ function finddata(personInfo, req, res, data) {
 		rand = genToken(); // gen code for email code url.
 		console.log('rand ' + md5('ethx' + rand + 'smlabs'));
 		code = md5('ethx' + rand + 'smlabs');
-		
+
 		//	global.ec = emailcode;
 		var newPerson = new User({
 			uid: c,
@@ -1095,7 +1119,7 @@ function finddata(personInfo, req, res, data) {
 			Date: Date.now(),
 			ip: getClientIp(req),
 			status: 1,
-			pwd_reset_code:"",
+			pwd_reset_code: "",
 
 		});
 		newPerson.save(function (err, Person) {
@@ -1330,13 +1354,18 @@ function verifyEmails(req, res) {
 					data.email_verified = 1;
 					data.email_code = "";
 					data.save(function (err, result) {
-						if(err){
+						if (err) {
 							p(err);
-						}else{
+						} else {
+							// if(res.session.email != ""){
+							// 	p(res.session.email);
+							// }else{
+							// 	p(res.session.email);
+							// }
 							console.log('saved');
 							res.redirect('/login');
 						}
-						
+
 					});
 				} else {
 					res.send('unauthorized user');
@@ -1347,8 +1376,8 @@ function verifyEmails(req, res) {
 				res.send('Email already verified, please login to continue ');
 			}
 		}
-		else{
-			p('err '+err);
+		else {
+			p('err ' + err);
 		}
 	});
 }
@@ -1366,9 +1395,9 @@ function sendMail(req, res, name) {
 	// 	random = buf.toString('hex');
 	// });
 	//rand = crypto.randomBytes(32).toString('hex'); //Math.floor((Math.random() * 100) + 54);
-	
+
 	//host = req.get('host');
-	rand = md5('ethx'+ genToken() + 'samlabs');
+	rand = md5('ethx' + genToken() + 'samlabs');
 	link = "http://" + req.get('host') + "/verifypwdlink?id=" + rand + "&email=" + req.body.email;
 	//console.log('rand' + link);
 	//global.rand = rand;
@@ -1378,7 +1407,7 @@ function sendMail(req, res, name) {
 		//from: 'no-reply@trsts.co',
 		to: req.session.email,
 		subject: "Reset Password",
-		html:result
+		html: result
 		// html: result + "<br>or<a href=" + link + ">Click here to verify</a>"
 	};
 	//console.log(mailOptions);
@@ -1391,20 +1420,20 @@ function sendMail(req, res, name) {
 			//	console.log("Message sent: " + response.message);
 			//res.end("sent");
 			//console.log('swal');
-			User.findOne({email:req.body.email},function(err, data){
-				if(data){
+			User.findOne({ email: req.body.email }, function (err, data) {
+				if (data) {
 					data.pwd_reset_code = rand;
-					data.save(function(err,result){
+					data.save(function (err, result) {
 						p('value saved');
 						res.redirect('/login');
 					});
-				}else{
+				} else {
 
 				}
 
 
 			});
-			
+
 		}
 	});
 }
@@ -1412,9 +1441,9 @@ function sendMail(req, res, name) {
 function p(param) {
 	console.log(param);
 }
-function generateEthereumKeyPair(){
+function generateEthereumKeyPair() {
 	var Wallet = require('ethereumjs-wallet');
-const wallet = Wallet.generate();
-console.log("privateKey: " + wallet.getPrivateKeyString());
-console.log("address: " + wallet.getAddressString());
+	const wallet = Wallet.generate();
+	console.log("privateKey: " + wallet.getPrivateKeyString());
+	console.log("address: " + wallet.getAddressString());
 }
