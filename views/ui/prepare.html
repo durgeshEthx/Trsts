@@ -12,7 +12,9 @@
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="ui/favicon.png" rel="shortcut icon">
   <link href="ui/apple-touch-icon.png" rel="apple-touch-icon">
-
+  <script type="text/javascript" src="pnotify/dist/iife/PNotify.js"></script>
+    <script type="text/javascript" src="pnotify/dist/iife/PNotifyButtons.js"></script>
+    <script type="text/javascript" src="pnotify/dist/umd/PNotifyStyleMaterial.js"></script>
 
 
 
@@ -457,15 +459,15 @@
 
                       <div id="drag-list">
                         <ul class="list-inline" style="display: inline-flex;flex-wrap:wrap;margin: 0 auto;width: 80%;z-index: 5;">
-                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;"><span id="drag2" class="drag" id="openForm">
+                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;"><span id="drag1" class="drag" >
                               <img src="ui/img/sign.png" width="20px" height="20px" />
                               Signature
 
                             </span>
                           </li>
-                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;"><span id="drag2" class="drag" id="openForm">
+                          <li style="margin: 0 10px;width: 22%;text-align: center;background: #fff;padding: 30px 20px;border-radius: 4px;box-shadow: 0px 2px 2px 0px #ddd;"><span id="drag2" class="drag" >
                               <img src="ui/img/initials.png" width="20px" height="20px" />
-                              Initals
+                              Initials
 
                             </span>
                           </li>
@@ -530,11 +532,19 @@
 
                   </div>
                   <div class="info-section text-center">
-
-
+                    <form>
+                    <input type="hidden" id="drag1left" value="">
+                    <input type="hidden" id="drag1right" value="">
+                    <input type="hidden" id="drag2left" value="">
+                    <input type="hidden" id="drag2right" value="">
+                    <input type="hidden" id="drag3left" value="">
+                    <input type="hidden" id="drag3right" value="">
+                    <input type="hidden" id="textbox" value="">
+                    <input type="hidden" id="date" value="">
                       <div class="value">
                         <button id="send4signing" class="mr-2 mb-2 btn btn-outline-primary btn-lg" type="button"> Send for Signing</button>
                       </div>
+                    </form>
                     </div>
                 </div>
 
@@ -549,8 +559,12 @@
       </div>
     </div>
     <div class="display-type"></div>
-  </div>
 
+  </div>
+<span id="countSign" >0</span>
+<span id="countIni" >0</span>
+<span id="countText" >0</span>
+<span id="countDate" >0</span>
 
 
 
@@ -587,170 +601,197 @@
  </script> -->
 
 <script>
+ var left, top;
+ var drag1arr = [];
+ var countSign=0;
+ var  countIni=0;
+ var  countText=0 ;
+ var countDate =0;
+ var count =0;
+$(document).ready(function(){
 
 $('#send4signing').click(function(){
+ //var p =  $('#drag1').position();
+ //console.log(p);
+  $.ajax({
+            type: 'POST',
+            url: '/sendforsign',
+            data: {email:'durgeshkmr4u@gmail.com'},
+            dataType: "json",
+            success: function (response) {
+              if(response.success == 'mail sent'){
+              //  alert("a");
+              
+                
+              }else{
+                
+                
+              }
 
-});
-  // target elements with the "draggable" class
-  // interact('.draggable')
-  //   .draggable({
-  //     // enable inertial throwing
-  //     inertia: true,
-  //     // keep the element within the area of it's parent
-  //     modifiers: [
-  //       interact.modifiers.restrictRect({
-  //         restriction: 'parent',
-  //         endOnly: true
-  //       })
-  //     ],
-  //     // enable autoScroll
-  //     autoScroll: true,
+              //alert("a");
+             
+              
+             
+                PNotify.success({
+                  addClass:'pnotify-center',    
+				title: 'Success!',
+				text: response.success,
+				styling : 'material',
+				icon    : 'material',
+				delay: 7000
+                });
+              },
 
-  //     // call this function on every dragmove event
-  //     onmove: dragMoveListener,
-  //     // call this function on every dragend event
-  //     onend: function (event) {
-  //       var textEl = event.target.querySelector('p')
+            });
+          });
+        
 
-  //       textEl && (textEl.textContent =
-  //         'moved a distance of ' +
-  //         (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
-  //                    Math.pow(event.pageY - event.y0, 2) | 0))
-  //           .toFixed(2) + 'px')
-  //     }
-  //   })
-
-  // function dragMoveListener (event) {
-  //   var target = event.target
-  //   // keep the dragged position in the data-x/data-y attributes
-  //   var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-  //   var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
-  //   // translate the element
-  //   target.style.webkitTransform =
-  //     target.style.transform =
-  //       'translate(' + x + 'px, ' + y + 'px)'
-
-  //   // update the posiion attributes
-  //   target.setAttribute('data-x', x)
-  //   target.setAttribute('data-y', y)
-  // }
-
-  // // this is used later in the resizing and gesture demos
-  // window.dragMoveListener = dragMoveListener
-
-
-  // interact('.draggable')
-  //   .draggable({ manualStart: true })
-  //   .on('move', function (event) {
-  //     var interaction = event.interaction;
-
-  //     // if the pointer was moved while being held down
-  //     // and an interaction hasn't started yet
-  //     if (interaction.pointerIsDown && !interaction.interacting()) {
-  //       var original = event.currentTarget,
-  //           // create a clone of the currentTarget element
-  //           clone = event.currentTarget.cloneNode(true);
-
-  //       // insert the clone to the page
-  //       // TODO: position the clone appropriately
-  //       document.body.appendChild(clone);
-
-  //       // start a drag interaction targeting the clone
-  //       interaction.start({ name: 'drag' },
-  //                         event.interactable,
-  //                         clone);
-  //     }
-  //   });
-
-
-  // enable draggables to be dropped into this
-  // interact('.dropzone').dropzone({
-  //   // only accept elements matching this CSS selector
-  //   accept: '#drag-1',
-  //   // Require a 75% element overlap for a drop to be possible
-  //   overlap: 0.75,
-
-  //   // listen for drop related events:
-
-  //   ondropactivate: function (event) {
-  //     // add active dropzone feedback
-  //     event.target.classList.add('drop-active')
-  //   },
-  //   ondragenter: function (event) {
-  //     var draggableElement = event.relatedTarget
-  //     var dropzoneElement = event.target
-
-  //     // feedback the possibility of a drop
-  //     dropzoneElement.classList.add('drop-target')
-  //     draggableElement.classList.add('can-drop')
-  //     draggableElement.textContent = 'Dragged in'
-  //   },
-  //   ondragleave: function (event) {
-  //     // remove the drop feedback style
-  //     event.target.classList.remove('drop-target')
-  //     event.relatedTarget.classList.remove('can-drop')
-  //     event.relatedTarget.textContent = 'Dragged out'
-  //   },
-  //   ondrop: function (event) {
-  //     event.relatedTarget.textContent = 'Dropped'
-  //   },
-  //   ondropdeactivate: function (event) {
-  //     // remove active dropzone feedback
-  //     event.target.classList.remove('drop-active')
-  //     event.target.classList.remove('drop-target')
-  //   }
-  // })
-
+ 
   var x = null;
+ 
   //Make element draggable
   $(".drag").draggable({
     helper: 'clone',
     cursor: 'move',
     tolerance: 'fit',
-    revert: true
+    revert: true,
+    stop:function(event , ui){
+      var id = ui.helper.context.attributes.id.value
+      console.log();
+      if(id === 'drag1'){
+        countSign++;
+        console.log('xxxxx')
+        console.log('countSign'+countSign);
+}   
+      if(ui.helper.context.attributes.id === 'drag2'){ 
+         countIni++; 
+      }
+      if(id == 'drag3'){
+        countText++;
+      }
+      if(id == 'drag4'){
+        countDate++;
+      }
+      
+    }   
+ 
   });
-
+  
   $("#droppable").droppable({
     accept: '.drag',
     activeClass: "drop-area",
     drop: function (e, ui) {
       if ($(ui.draggable)[0].id != "") {
-
-
+        
+          
+          
         x = ui.helper.clone();
         ui.helper.remove();
         x.draggable({
           helper: 'original',
           cursor: 'move',
-       //   containment: '#droppable',
+          containment: '#droppable',
           tolerance: 'fit',
           drop: function (event, ui) {
-            $(ui.draggable).remove();
-          }
+            $(ui.draggable).remove(); 
+          },
+          stop:function(event , ui){
+            var inner_text =  ui.helper.context.innerText;
+            console.log(ui.helper.context.innerText)
+             console.log(ui.position.left);
+            if (inner_text == 'X Signature') {
+              console.log('x signature');
+              count = countSign;
+              console.log('count'+count);
+
+            }
+            if (inner_text == 'X Initials') {
+              
+              count = countIni;
+             
+
+            }
+            if (inner_text == 'X Text') {
+             
+              count = countText;
+              
+
+            }
+            if (inner_text == 'X Date') {
+              
+              count = countDate;
+             
+
+            }
+            $.ajax({
+            type: 'GET',
+            url: '/updateplaceholders',
+            data: {count:count,name:ui.helper.context.innerText,top:ui.position.top,left:ui.position.left},
+            dataType: "json",
+            
+              
+
+            });
+           }
         });
 
-        x.resizable({
-          maxHeight: $('#droppable').height(),
-          maxWidth: $('#droppable').width()
-        });
+        // x.resizable({
+        //   maxHeight: $('#droppable').height(),
+        //   maxWidth: $('#droppable').width()
+        // });
+        console.log(ui);
         x.addClass('remove');
         var el = $("<span><a href='Javascript:void(0)' class=\"xicon delete\" title=\"Remove\">X</a></span>");
-       var select = $('<select> <option value="1">1</option>\
-                \<option value="2">2</option></select>');
-                $(select).insertAfter($(x.find('img')));
+        
         $(el).insertAfter($(x.find('img')));
         x.appendTo('#droppable');
+
+        var prnt = $('#droppable');
+            
+            var leftAdjust = x.position().left - prnt.offset().left +200;
+            var topAdjust = x.position().top - prnt.offset().top + 35;
+            console.log('leftadjust '+leftAdjust);
+            console.log('topadjust '+topAdjust);
+            x.css({left: leftAdjust, top: topAdjust});
+        //     var id =    ui.draggable.attr('id');
+        //     console.log('id '+id);
+            
+            // if(id == 'drag1'){   
+            //   drag1arr.push(leftAdjust);
+            //   console.log('drag1adjust '+drag1arr[0]);
+            //   $('#signature').val()
+            // }
+            
+      //  var pos =   $('.drag.ui-draggable.ui-draggable-handle.ui-draggable-dragging.remove').position();
+      // console.log(x.attr('id'));
         $('.delete').on('click', function () {
           $(this).parent().parent('span').remove();
+          var trim = $(this).parent().parent('span')[0].childNodes[3].nodeValue;
+          if ($.trim(trim) === 'Signature') {
+            console.log('yesssss')
+            countSign--
+          }
+          if ($.trim(trim) === 'Initials') {
+            console.log('yesssss')
+            countIni--
+          }
+          if ($.trim(trim) === 'Text') {
+            console.log('yesssss')
+            countText--
+          }
+          if ($.trim(trim) === 'Date') {
+            console.log('yesssss')
+            countDate--
+          }
+          console.log( $.trim(trim));
         });
-        $('.delete').parent().parent('span').dblclick(function () {
-          $(this).remove();
-        });
+        // $('.delete').parent().parent('span').dblclick(function () {
+        //   $(this).remove();
+        //   //count--;
+        // });
       }
     }
-  });
-
+  }); 
   $("#remove-drag").droppable({
     drop: function (event, ui) {
       $(ui.draggable).remove();
@@ -758,6 +799,9 @@ $('#send4signing').click(function(){
     hoverClass: "remove-drag-hover",
     accept: '.remove'
   });
+
+  
+});
 </script>
 
 </html>

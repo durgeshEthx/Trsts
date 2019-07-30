@@ -50,7 +50,7 @@
 								</span>
 							</li>
 						<li><span id="drag2" class="drag" id="openForm">
-								<img src="ui/img/sign.jpeg" width="20px" height="20px" />
+								<img src="ui/img/sign.jpeg" width="20px" height="20px" />		
 								Signature
 								<!--  -->
 							</span>
@@ -125,7 +125,13 @@
 			helper: 'clone',
 			cursor: 'move',
 			tolerance: 'fit',
-			revert: true
+			revert: true,
+			stop: function(event, ui ) {
+
+console.log('left ')  ;
+
+}
+
 		});
 
 		$("#droppable").droppable({

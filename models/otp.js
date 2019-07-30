@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 otpSchema = new Schema({
 
     uid: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    code: Number,
+    code: String,
     date: Date,
     ip: String,
     status: Number

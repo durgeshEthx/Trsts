@@ -15,7 +15,7 @@ var request = require('request');
 var nodemailer = require("nodemailer");
 var Recaptcha = require('express-recaptcha').RecaptchaV3;
 const userdetail = require('../models/userdetails');
-const TokenVerification = require('../models/tokenverification');
+//const TokenVerification = require('../models/tokenverification');
 const Document = require('../models/document');
 const contactus = require('../models/contact');
 const billing = require('../models/billing');
@@ -31,8 +31,9 @@ const otp = require('../models/otp');
 const wallet_address = require('../models/wallet_address');
 const audit_trail = require('../models/audit_trail');
 const signee = require('../models/signee');
+const placeholder = require('../models/placeholders');
 var recaptcha = new Recaptcha('6LegEqkUAAAAAM26uqgIyMEXH5ujQDY53okuRKgB', '6LegEqkUAAAAAC3G_m7NXeWTCIOPH0Gfk2CmVUbo', { callback: 'cb' });
-
+var async = require('async');
 /*
 	Here we are configuring our SMTP Server details.
 	STMP is mail server which is responsible for sending and recieving email.
@@ -327,6 +328,77 @@ router.post('/login', function (req, res, next) {
 	});
 });
 
+// to verify user for sining doc.
+router.get('/verifyuserforsigning', function (req, res) {
+	User.findOne({ email: req.query.email }, function (err, data) {
+
+		if (data) {
+
+
+			otp.findOne({ uid: data._id }, function (err, otps) {
+				if (otps) {
+					if (otps.code == req.query.link) {
+						otps.code = "";
+						res.render('sign.ejs'); 
+					} else {
+						res.send('error');
+					}
+				} else {
+					p(err)
+				}
+			})
+
+		} else {
+			p(err)
+		}
+	});
+});
+
+
+
+
+// to send mail  for signing doc.
+
+router.post('/sendmailforsignning', function (req, res) {
+	var mail = 'durgeshkmr4u@gmail.com';
+	var rand = md5('ethx' + genToken() + 'samlabs');
+	link = "http://" + req.get('host') + "/verifyuserforsigning?id=" + rand + "&email=" + mail;
+
+	//	var result = data.replace(/replaceurl/g, link);
+	//	result = result.replace(/replacename/g, name);
+	mailOptions = {
+		//from: 'no-reply@trsts.co',
+		to: mail,
+		subject: "Invitation to sign Document",
+		html: "<br><p>You have been invited to sign a document</p><a href=" + link + ">Click here to sign</a>"
+
+	};
+	//console.log(mailOptions);
+	smtpTransport.sendMail(mailOptions, function (error, response) {
+		if (error) {
+			console.log(error);
+			res.end("error");
+		}
+		else {
+
+			User.findOne({ email: mail }, function (err, data) {
+				if (data) {
+					otp.findOne({ uid: data._id }, function (err, otps) {
+						otps.code = rand;
+						otps.save();
+					});
+
+
+					res.send({ success: 'mail sent' });
+
+				}
+
+			});
+
+		}
+	});
+})
+
 router.get('/checkplans', function (req, res) {
 	p('checkplans' + req.session.email);
 	User.findOne({ email: req.session.email }, function (err, data) {
@@ -487,6 +559,44 @@ router.get('/verifypwdlink', function (req, res) {
 // 	//	 res.send(req.body.parkName);
 // 	res.render('signd.ejs');
 // });
+router.get('/updateplaceholders', function (req, res) {
+
+	const name = req.query.name;
+	const count = req.query.count;
+	const top = req.query.top;
+	const left = req.query.left;
+	var uid;
+	User.findOne({ email: req.session.email }, function (err, data) {
+		p('0')
+		if (data) {
+			p('1')
+			uid = data._id;
+			p('inside uid '+uid)
+		}
+		p('2')
+		p('inside placeholder' + uid);
+		if (name == 'X Signature') {
+			p('count ' + count)
+			if (count == 1) {// first time / replacement of same placeholder
+				var placeholders = new placeholder({
+					uid: uid,
+				//	doc_id: { type: mongoose.Schema.Types.ObjectId, ref: 'documents' },
+					count: count,
+					top: top,
+					left: left,
+					name: name
+				});
+				placeholders.save();
+			}
+		} else {
+	
+		}
+	
+		res.send({ 'sucess': 'updated' });
+	});
+	
+
+});
 
 router.post('/signd', function (req, res) {
 	var info = req.body;
@@ -527,81 +637,64 @@ router.post('/signd', function (req, res) {
 			color: '#AAF122' // Text color in hex default: #000000
 		}
 	};
-
+	var imgpath = path.join('images', imgname);
+	imgpath = imgpath + '.png';
 	//optionsImageWatermark or optionsTextWatermark
 	watermark.embed(optionsTextWatermark, function (status) {
 		//Do what you want to do here
-		//console.log(status);
+		console.log(status);
+
+		//......//
+
+
+		// for logged in user
+		var uid4doc;
+		User.findOne({ email: req.session.email }, function (err, data) {
+			if (data) {
+				p('data ' + data._id)
+				uid4doc = data._id;
+
+				p('logged user _id ' + req.session.email);
+				p(uid4doc)
+				var document = new Document({
+					uid: uid4doc,
+					trstsid: waterMark,
+					title: info.doctitle,
+					comments: info.docdesc,
+					location: despath + '.png',
+					date: Date.now(),
+					ip: getClientIp(req),
+					status: 1,
+				});
+				//	document.save(function (err, doc) {
+				// if (err) {
+				// 	p(err);
+				// } else {
+				// 	//p(doc);
+				// }
+				document.save();
+				p('insave');
+				// if signeer is registered...
+				//createAndRegisterSignee(info, document, req, res);
+				wrapCreate(info, document, req, res);
+
+
+
+				//});
+
+
+			}
+			else {
+				p('not found 0 ' + err);
+				uid4doc = "";
+			}
+		});
 	});
 
-	var imgpath = path.join('images', imgname);
-	imgpath = imgpath + '.png';
-	//......//
 
 
-	// for logged in user
-	var document = new Document({
-		uid: getUser_id(req.session.email),
-		trstsID: waterMark,
-		title: info.doctitle,
-		comments: info.docdesc,
-		location: despath + '.png',
-		date: Date.now(),
-		ip: getClientIp(req),
-		status: 1,
-	});
-	document.save(function (err, doc) {
-		if (err) {
-			p(err);
-		} else {
-			p(doc);
-		}
-	});
 
-	// if signeer is registered...
-	if (getUser_id(info.signemail) != "") {
-		var uid = getUser_id(info.signemail);
-		createSignee(document._id, uid);
-	} else {
-		registerUser(info.signname, info.signemail, req, res);
-		var uid = getUser_id(info.signemail);
-		createSignee(document._id, uid);
-	}
 
-	if (getUser_id(info.secemail) != "") {
-		var uid = getUser_id(info.secemail);
-		createSignee(document._id, uid);
-		// var signees = new signee({
-		// 	document_id:document._id,
-		// 	signee_uid:uid,
-		// 	status:1
-		// }) ;
-		// signees.save();
-	} else {
-		registerUser(info.secname, info.secemail, req, res);
-		var uid = getUser_id(info.secemail);
-		createSignee(document._id, uid);
-	}
-
-	const count = info.count;
-	p(count);
-	for (var i = 1; i <= count; i++) {
-		p('count ' + i);
-		if (getUser_id(info.email + i)) {
-			var uid = getUser_id(info.email + i);
-			createSignee(document._id, uid);
-			// var signees = new signee({
-			// 	document_id:document._id,
-			// 	signee_uid:uid,
-			// 	status:1
-			// }) ;
-			// signees.save();
-		} else {
-			registerUser(info.name + i, info.email + i, req, res);
-			var uid = getUser_id(info.email + i);
-			createSignee(document._id, uid);
-		}
-	}
 
 
 	res.render('prepare.ejs', { imgpath: imgpath, docname: info.doctitle, docdesc: info.docdesc, trstsID: waterMark });
@@ -691,6 +784,47 @@ router.post('/forgetpass', function (req, res) {
 
 });
 
+//send emails 4 signneer
+
+router.post('/sendforsign', function (req, res) {
+
+	User.findOne({ email: req.session.email }, function (err, data) {
+		if (data) {
+			p('sendforsign');
+			var uid = data._id;
+			p(uid)
+			Document.findOne({ uid: uid }, function (err, doc) {
+				p(doc);
+				if (doc) {
+
+					var doc_id = doc._id;
+					p('doc id ' + doc_id)
+					signee.findOne({ document_id: doc_id }, function (err, signer) {
+						if (signer) {
+							p('signeer ' + signee);
+							var _uid = signer.signee_uid;
+							p(_uid)
+							User.find({ _id: _uid }, function (err, signeremail) {
+								p('signeremail '+signeremail)
+								p(err)
+								res.send('signee')
+							});
+						} else {
+							p(err)
+							p('111')
+							res.send('err');
+						}
+					})
+				} else {
+					p('12')
+				}
+			});
+
+		} else {
+			p('13')
+		}
+	});
+});
 router.post('/contactus', function (req, res) {
 	console.log("company name " + req.session.email);
 
@@ -739,8 +873,107 @@ router.post('/contactus', function (req, res) {
 
 module.exports = router;
 
+async function wrapCreate(info, document, req, res) {
+	await createUserforSign(info.signname, info.signemail, document, req, res);
+	p('mid');
+	await createUserforSign(info.secname, info.secemail, document, req, res);
+	const count = info.count;
+	p('coutn' + count);
+	for (var i = 1; i <= count; i++) {
+	//	p('count ' + i);
+		await createUserforSign(info.name + i, info.email + i, document, req, res);
+		// if (getUser_id(info.email + i)) {
+		// 	var uid = getUser_id(info.email + i);
+		// 	createSignee(document._id, uid);
+		// }
+		// else {
+		// 	registerUser(info.name + i, info.email + i, req, res);
+		// 	var uid = getUser_id(info.email + i);
+		// 	createSignee(document._id, uid);
+		// }
+	}
+}
+
+
+async function createUserforSign(name, email, document, req, res) {
+	p(email)
+	await User.findOne({ email: email }, function (err, datas) {
+		if (datas) {
+			p('data id' + datas._id);
+			// expand createSignee fx.
+			var signees = new signee({
+				document_id: document._id,
+				signee_uid: datas._id,
+				status: 2
+			});
+			signees.save();
+			// signees.save(function (err, signee) {
+			// 	if (err) {
+			// 		p(err);
+			// 	}
+			// 	else {
+			// 	//	p(signee);
+			// 	}
+			// });
+		}
+		else {
+			p('else ' + err)
+			registerUser(name, email, req, res);
+			User.findOne({ email: email }, function (err, e) {
+				if (e) {
+					var u = e._id;
+					createSignee(document._id, u);
+				}
+			});
+		}
+		p('err ' + err)
+	});
+}
+
+function createAndRegisterSignee(info, document, req, res) {
+	if (getUser_id(info.signemail) != "") {
+		var uid = getUser_id(info.signemail);
+		createSignee(document._id, uid);
+	}
+	else {
+		registerUser(info.signname, info.signemail, req, res);
+		var uid = getUser_id(info.signemail);
+		createSignee(document._id, uid);
+	}
+
+
+
+
+
+	if (getUser_id(info.secemail) != "") {
+		var uid = getUser_id(info.secemail);
+		createSignee(document._id, uid);
+
+	}
+	else {
+		registerUser(info.secname, info.secemail, req, res);
+		var uid = getUser_id(info.secemail);
+		createSignee(document._id, uid);
+	}
+	const count = info.count;
+	p(count);
+	for (var i = 1; i <= count; i++) {
+	//	p('count ' + i);
+		if (getUser_id(info.email + i)) {
+			var uid = getUser_id(info.email + i);
+			createSignee(document._id, uid);
+		}
+		else {
+			registerUser(info.name + i, info.email + i, req, res);
+			var uid = getUser_id(info.email + i);
+			createSignee(document._id, uid);
+		}
+	}
+}
+
 function createSignee(id, uid) {
 	p('uid ' + uid);
+
 	var signees = new signee({
 		document_id: id,
 		signee_uid: uid,
@@ -766,6 +999,7 @@ function registerUser(name, email, req, res) {
 		else {
 			c = 1;
 		}
+		p('user registered')
 		rand = genToken(); // gen code for email code url.
 		console.log('rand ' + md5('ethx' + rand + 'smlabs'));
 		code = md5('ethx' + rand + 'smlabs');
@@ -788,7 +1022,7 @@ function registerUser(name, email, req, res) {
 				console.log('newperson' + err);
 			}
 			else
-				console.log('Success');
+				console.log(' newperson Success');
 		});
 		var userdetails = new userdetail({
 			//unique_id: c, 
@@ -827,7 +1061,7 @@ function registerUser(name, email, req, res) {
 				p('err' + err);
 			}
 			else {
-				p('billing ' + billing);
+				//	p('billing ' + billing);
 			}
 		});
 		var payments = new payment({
@@ -844,7 +1078,7 @@ function registerUser(name, email, req, res) {
 				p('payment err' + err);
 			}
 			else {
-				p('payment' + payment);
+				//	p('payment' + payment);
 			}
 		});
 		var invoices = new invoice({
@@ -862,7 +1096,7 @@ function registerUser(name, email, req, res) {
 				p('invoce err' + invoice);
 			}
 			else {
-				p('invoice' + invoice);
+				//	p('invoice' + invoice);
 			}
 		});
 		var user_trsts_credits = new user_trsts_credit({
@@ -875,7 +1109,7 @@ function registerUser(name, email, req, res) {
 				p('user_credit_err ' + err);
 			}
 			else {
-				p('user_credit ' + user_trsts_credit);
+				//	p('user_credit ' + user_trsts_credit);
 			}
 		});
 		//user_address
@@ -894,7 +1128,7 @@ function registerUser(name, email, req, res) {
 				p('user_add err' + err);
 			}
 			else {
-				p('user_add ' + user_address);
+				//p('user_add ' + user_address);
 			}
 		});
 		//support replies
@@ -912,7 +1146,7 @@ function registerUser(name, email, req, res) {
 				p('support reples err' + err);
 			}
 			else {
-				p('support replie ' + support_replie);
+				//p('support replie ' + support_replie);
 			}
 		});
 		//support
@@ -930,7 +1164,7 @@ function registerUser(name, email, req, res) {
 				p(err);
 			}
 			else {
-				p(support);
+				//p(support);
 			}
 		});
 		// user money wallet
@@ -945,7 +1179,7 @@ function registerUser(name, email, req, res) {
 				p(err);
 			}
 			else {
-				p(user_money_wallet);
+				//p(user_money_wallet);
 			}
 		});
 		//otp
@@ -961,7 +1195,7 @@ function registerUser(name, email, req, res) {
 				p(err);
 			}
 			else {
-				p(otp);
+				//p(otp);
 			}
 		});
 		//wallet_address
@@ -975,7 +1209,7 @@ function registerUser(name, email, req, res) {
 				p(err);
 			}
 			else {
-				p(wallet_address);
+				//p(wallet_address);
 			}
 		});
 		//sendMailForVerification(data, req, personInfo, res);
@@ -983,15 +1217,18 @@ function registerUser(name, email, req, res) {
 }
 
 function getUser_id(email) {
+	p('email id ' + email);
 	User.findOne({ email: email }, function (err, data) {
 		if (data) {
+			p('data ' + data._id)
 			return data._id;
 		}
 		else {
-			p('not found');
+			p('not found 0 ' + err);
 			return "";
 		}
 	});
+	//	p('not found 1')
 }
 
 function sendMailForVerification(data, req, personInfo, res) {
@@ -1084,6 +1321,7 @@ function sendMailForVerification(data, req, personInfo, res) {
 			//console.log('swal');
 			// res.redirect('/login');
 			req.session.email = personInfo.email;
+			p('senttt')
 			res.send({ success: 'registered successfully !' });
 			//res.redirect('/plans');
 			//	res.send({ country: personInfo.country });

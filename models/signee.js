@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 
 signeeSchema = new Schema({
 	
-    document_id:String,
-    signee_uid:String,
+    document_id: {type:mongoose.Schema.Types.ObjectId , ref : 'documents'},
+    signee_uid: {type:mongoose.Schema.Types.ObjectId , ref : 'User'},
     status:Number
 }),
 
