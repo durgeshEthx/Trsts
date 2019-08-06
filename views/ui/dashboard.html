@@ -8,7 +8,7 @@
     <meta content="Tamerlan Soziev" name="author">
     <meta content="Admin dashboard html template" name="description">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link href="ui/favicon.png" rel="shortcut icon">
+    <link href="ui/favicon.   g" rel="shortcut icon">
     <link href="ui/apple-touch-icon.png" rel="apple-touch-icon">
     <link href="ui/https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet" type="text/css">
     <link href="ui/bower_components/select2/dist/css/select2.min.css" rel="stylesheet">
@@ -834,10 +834,10 @@
                       <div class="project-box">
                         <div class="project-head">
                           <div class="project-title">
-                            <h5>
-                              Non Disclosure Agreement
+                            <h5 id="firsttitle">
+                             
                             </h5>
-                            <br><div class="el-tablo highlight"><div class="label">Trsts ID: 15shjkahjbclhgag87gviycdvhdb9oj</div></div>
+                            <br><div class="el-tablo highlight"><div class="label" id="firstid"></div></div>
                           </div>
                           <div class="project-users">
                             <div class="avatar">
@@ -853,7 +853,7 @@
                               <img alt="" src="ui/img/avatar2.jpg">
                             </div>
                             <div class="more">
-                              + 5 More
+                              
                             </div>
                           </div>
                         </div>
@@ -864,11 +864,11 @@
                               
                                 <div class="col-6">
                                   <div class="el-tablo highlight">
-                                    <div class="label">
+                                    <div class="label" >
                                       Status
                                     </div>
-                                    <div class="value" style="font-size:1rem;">
-                                      Draft
+                                    <div id="firststatus" class="value" style="font-size:1rem;">
+                                     
                                     </div>
                                   </div>
                                 </div>
@@ -1145,6 +1145,12 @@
     </script>
   <script>
       $(document).ready(function(){
+
+       // get recent doc. data
+        $('#firsttitle').text('<%-title[0]%>')
+        $('#firstid').text('Trsts ID: <%-trstsid[0]%>')
+        $('#firststatus').text('<%-status[0]%>')
+
         $('.logged-user-role').text($('#loggedrole').val());
 
 

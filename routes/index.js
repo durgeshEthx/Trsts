@@ -38,29 +38,29 @@ var async = require('async');
 	Here we are configuring our SMTP Server details.
 	STMP is mail server which is responsible for sending and recieving email.
 */
-var smtpTransport = nodemailer.createTransport({
-	service: "Gmail",
-	auth: {
-		user: "durgeshkmr4u@gmail.com",
-		pass: "rnsqimcuthkawmnx"
-	}
-});
-
-// function smtpconfig(){
-//     var smtpTransport = nodemailer.createTransport({
-// 	pool: true,
-// 	host: "smtp.sparkpostmail.com",
-// 	port: 587,
-// 	secure: false,
-
+// var smtpTransport = nodemailer.createTransport({
+// 	service: "Gmail",
 // 	auth: {
-// 	  user: "SMTP_Injection",
-// 	  pass: "fc885621d357d99f241c14c1bd89b0b930046fd2"
+// 		user: "durgeshkmr4u@gmail.com",
+// 		pass: "rnsqimcuthkawmnx"
 // 	}
-//   });
+// });
 
-//   return smtpTransport;
-// }
+function smtpconfig(){
+    var smtpTransport = nodemailer.createTransport({
+	pool: true,
+	host: "smtp.pepipost.com",
+	port: 25,
+	secure: false,
+
+	auth: {
+	  user: "m1m9wh3",
+	  pass: "R69RpRnjtv@J4Bq"
+	}
+  });
+
+  return smtpTransport;
+}
 // var smtpTransport = nodemailer.createTransport({
 // 	pool: true,
 // 	host: "email-smtp.us-west-2.amazonaws.com",
@@ -140,7 +140,9 @@ router.post('/', function (req, res) {
 	}
 });
 router.get('/dashboard', function (req, res) {
-
+	var title = []
+	var trstsid = []
+	var status =[]
 	// res.render('dashboard.ejs');
 	p('your comapny ' + req.query.companyname);
 	p('role ' + req.query.role);
@@ -167,6 +169,18 @@ router.get('/dashboard', function (req, res) {
 						}
 					});
 					p('1')
+
+					Document.find({ uid:data._id},function (err,doc) {
+						if (doc) {
+							doc.forEach(element =>{
+								p(element);
+								title.push(element.title)
+								trstsid.push(element.trstsid)
+								status.push(element.status)
+							})
+						}
+					})
+
 					res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 1, loggedrole: userd.company });
 				});
 			} else {
@@ -181,16 +195,27 @@ router.get('/dashboard', function (req, res) {
 				username = data.fullname;
 
 				userdetail.findOne({ uid: data._id }, function (err, userd) {
+					Document.find({ uid:data._id},function (err,doc) {
+						if (doc) {
+							doc.forEach(element =>{
+								p(00001);
+								title.push(element.title)
+								trstsid.push(element.trstsid)
+								status.push(element.status)
+							})
+							if (userd.company != "" && userd.position != "") {
+								p('3')
+								p(userd.position);
+								p('this is title '+title)
+								res.render('dashboard.ejs', {title:title,trstsid: trstsid,status:status, un: username, email_verified: 1, slick: 1, loggedrole: userd.position });
+							} else {
+								p('4')
+								res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 0, loggedrole: "" });
+							}
+						}
+					})
 
-
-					if (userd.company != "" && userd.position != "") {
-						p('3')
-						p(userd.position);
-						res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 1, loggedrole: userd.position });
-					} else {
-						p('4')
-						res.render('dashboard.ejs', { un: username, email_verified: 1, slick: 0, loggedrole: "" });
-					}
+					
 
 
 
@@ -338,10 +363,11 @@ router.get('/verifyuserforsigning', function (req, res) {
 			otp.findOne({ uid: data._id }, function (err, otps) {
 				if (otps) {
 					if (otps.code == req.query.id) {
-						otps.code = "";
+						//otps.code = "";
 						otps.save();
-						req.session.signeemail = req.query.email;
-						res.render('sign.ejs'); 
+						req.session.signeemail = req.query.email;//signeer email 
+						//res.render('sign.ejs'); 
+						res.redirect('/test');
 					} else {
 						res.send('error');
 					}
@@ -362,7 +388,7 @@ router.get('/verifyuserforsigning', function (req, res) {
 // to send mail  for signing doc.
 
 router.post('/sendmailforsignning', function (req, res) {
-	
+
 })
 
 router.get('/checkplans', function (req, res) {
@@ -532,18 +558,18 @@ router.get('/updateplaceholders', function (req, res) {
 	const top = req.query.top;
 	const left = req.query.left;
 	var newItem = req.query.newItem;
-	p('newItem '+req.query.newItem);
+	p('newItem ' + req.query.newItem);
 	var uid;
 	var docid;
 	User.findOne({ email: req.session.email }, function (err, data) {
-		
+
 		if (data) {
-			
+
 			uid = data._id;
 			Document.findOne({ uid: uid }, function (err, doc) {
 				if (doc) {
 					docid = doc._id;
-					p('docid '+ docid)
+					p('docid ' + docid)
 
 					if (name == 'X Signature') {
 						p('count ' + count)
@@ -555,48 +581,95 @@ router.get('/updateplaceholders', function (req, res) {
 								left: left,
 								name: name
 							});
-							placeholders.save();	
-						}else{
-							
+							placeholders.save();
+						} else {
+
 						}
-					} 
-				}	
+					}
+				}
 			})
-		
-		} 
-		
-	
-	
+
+		}
+
+
+
 		res.send({ 'sucess': 'updated' });
 	});
-	
+
 
 });
-router.get('/test', function (req, res){
+router.get('/test', function(req, res){
+	p(000);
+	res.render('test.ejs');
+});
+router.post('/test',  function(req, res) {
 	var id;
-	var trstsid, title, description,location;
+	var trstsid, title, description, location;
+	var name = [];
+	var top = []
+	var left = []
+	var top, left, placeholder_name;
+	var signee_name = [];
 	p(req.session.signeemail)
-	User.findOne({ email: req.session.signeemail }, function (err, data){
-		if(data){
+	User.findOne({ email: req.session.signeemail }, function (err, data) {
+		if (data) {
 			id = data._id;
 			p('1')
 			p(id)
+			//name.push(1);
 			Document.findOne({ uid: id }, function (err, doc) {
 				if (doc) {
 					p('2')
-					trstsid = doc.trstsid;
-					title = doc.title;
-					description = doc.comments;
-					location = doc.location;
+					var doc_id = doc._id;
+				
+					placeholder.find({ doc_id: doc_id }, function (err, placeholders) {
+						if (placeholders) {
+							p(200)
+							placeholders.forEach(element => {
+								name.push(element.name)
+								top.push(element.top)
+								left.push(element.left)
 
-					res.render('signdoc.ejs',{trstsID:trstsid,title:title,description:description,location:location});
+
+							})
+							signee.find({ document_id: doc_id }, function (err, signer) {
+								if (signer) {
+									p(100)
+										signer.forEach(element => {
+										p(element);
+										var id = element.signee_uid;
+										p(id)
+									//var fullname =	findSignee(id);
+									var fullname =  User.findOne({_id:id});
+									//	signee_name.push(fullname);
+									//	p(fullname)
+									});
+
+							trstsid = doc.trstsid;
+							title = doc.title;
+							description = doc.comments;
+							location = doc.location;
+						//	p('list of signee_name ' + signee_name)
+
+							res.send({ signee_name: signee_name, name: name, top: top, left: left, trstsid: trstsid, title: title, description: description, location: location });		
+		
+								}
+							})
+
+						}
+					})
+
+
+
+
+					//res.render('signdoc.ejs',{trstsID:trstsid,title:title,description:description,location:location});
 				}
 				p(3)
 			})
 		}
 		p(4)
 	})
-	
+
 })
 router.post('/signd', function (req, res) {
 	var info = req.body;
@@ -615,7 +688,7 @@ router.post('/signd', function (req, res) {
 	//console.log('tmpimg'+tmpimg);
 	var paths = path.join(appRoot, 'images', tmpimg);
 	const despath = path.join(appRoot, 'views', 'images', imgname);
-	var loc = path.join('images',imgname)
+	var loc = path.join('images', imgname)
 	var dimensions = sizeOf(paths);
 	//console.log(dimensions.width, dimensions.height);
 	//console.log(md5('smlabs' + Date.now() + 'ethx'));
@@ -662,7 +735,7 @@ router.post('/signd', function (req, res) {
 					trstsid: waterMark,
 					title: info.doctitle,
 					comments: info.docdesc,
-					location: loc +'.png',//despath + '.png',
+					location: loc + '.png',//despath + '.png',
 					date: Date.now(),
 					ip: getClientIp(req),
 					status: 1,
@@ -697,7 +770,7 @@ router.post('/signd', function (req, res) {
 
 
 
-	p('imagepath '+imgpath)
+	p('imagepath ' + imgpath)
 	res.render('prepare.ejs', { imgpath: imgpath, docname: info.doctitle, docdesc: info.docdesc, trstsID: waterMark });
 	//res.render('signd.ejs',{ imgpath: imgpath,name:name});//{ imgpath: imgpath, name: name }      
 });
@@ -799,27 +872,27 @@ router.post('/sendforsign', function (req, res) {
 				if (doc) {
 
 					var doc_id = doc._id;
-					p('doc id ' + doc_id) 
+					p('doc id ' + doc_id)
 					signee.find({ document_id: doc_id }, function (err, signer) {
 						if (signer) {
 							signer.forEach(element => {
 								p(element);
 								var id = element.signee_uid;
 								p(id)
-								User.findOne({_id:id},function(err , result) {
+								User.findOne({ _id: id }, function (err, result) {
 									if (result) {
 										p('find_by_id')
-										sendemailtosigners(result.email,req, res);
+										sendemailtosigners(result.email, req, res);
 										p(result.email)
 									}
 									p('dfe')
 								})
 							});
-						//	p('signeer ' + signee);
-						//	p(signee._id);
+							//	p('signeer ' + signee);
+							//	p(signee._id);
 
 							//var _uid = signer.signee_uid;
-						//	p(_uid)
+							//	p(_uid)
 							// User.find({ _id: _uid }, function (err, signeremail) {
 							// 	p('signeremail '+signeremail)
 							// 	p(err)
@@ -827,7 +900,7 @@ router.post('/sendforsign', function (req, res) {
 							// });
 							//res.redirect('/dashboard');
 							p('maill')
-							res.send({ success:'mail'})
+							res.send({ success: 'mail' })
 						} else {
 							p(err)
 							p('111')
@@ -843,7 +916,7 @@ router.post('/sendforsign', function (req, res) {
 			p('13')
 		}
 	});
-});     
+});
 router.post('/contactus', function (req, res) {
 	console.log("company name " + req.session.email);
 
@@ -892,23 +965,36 @@ router.post('/contactus', function (req, res) {
 
 module.exports = router;
 
-function sendemailtosigners(mail , req, res) {
-//	var mail = 'durgeshkmr4u@gmail.com';
+async function findSignee(id					) {
+	 const name =await User.findOne({_id:id});
+
+return name.fullname;
+
+ //User.findOne({ _id: id }, function (err, result) {
+		// if (result) {
+		// 	p(result.fullname);
+		// 	signee_name.push(result.fullname);
+		// }
+	//});
+}
+
+function sendemailtosigners(mail, req, res) {
+	//	var mail = 'durgeshkmr4u@gmail.com';
 	var rand = md5('ethx' + genToken() + 'samlabs');
+	p(rand)
 
 
-	
 	link = "http://" + req.get('host') + "/verifyuserforsigning?id=" + rand + "&email=" + mail;
 	//	var result = data.replace(/replaceurl/g, link);
 	//	result = result.replace(/replacename/g, name);
 	mailOptions = {
-		//from: 'no-reply@trsts.co',
+		from: 'no-reply@trsts.co',
 		to: mail,
 		subject: "Invitation to sign Document",
 		html: "<br><p>You have been invited to sign a document</p><a href=" + link + ">Click here to sign</a>"
 	};
 	//console.log(mailOptions);
-	smtpTransport.sendMail(mailOptions, function (error, response) {
+	smtpconfig().sendMail(mailOptions, function (error, response) {
 		if (error) {
 			console.log(error);
 			res.end("error");
@@ -916,12 +1002,13 @@ function sendemailtosigners(mail , req, res) {
 		else {
 			User.findOne({ email: mail }, function (err, data) {
 				if (data) {
+					p(rand)
 					otp.findOne({ uid: data._id }, function (err, otps) {
 						otps.code = rand;
 						otps.save();
 					});
-				//	res.send({ success: 'mail sent' });
-				//res.send('mail sent')
+					//	res.send({ success: 'mail sent' });
+					//res.send('mail sent')
 				}
 			});
 		}
@@ -935,7 +1022,7 @@ async function wrapCreate(info, document, req, res) {
 	const count = info.count;
 	p('coutn' + count);
 	for (var i = 1; i <= count; i++) {
-	//	p('count ' + i);
+		//	p('count ' + i);
 		await createUserforSign(info.name + i, info.email + i, document, req, res);
 		// if (getUser_id(info.email + i)) {
 		// 	var uid = getUser_id(info.email + i);
@@ -1013,7 +1100,7 @@ function createAndRegisterSignee(info, document, req, res) {
 	const count = info.count;
 	p(count);
 	for (var i = 1; i <= count; i++) {
-	//	p('count ' + i);
+		//	p('count ' + i);
 		if (getUser_id(info.email + i)) {
 			var uid = getUser_id(info.email + i);
 			createSignee(document._id, uid);
@@ -1360,12 +1447,12 @@ function sendMailForVerification(data, req, personInfo, res) {
 	var result = data.replace(/replacemee/g, link);
 	result = result.replace(/replacename/g, personInfo.username);
 	mailOptions = {
-		// from:'no-reply@trsts.co',
+		 from:'no-reply@trsts.co',
 		to: personInfo.email,
 		subject: "Please confirm your Email account",
 		html: "" + result + "<br>or<a href=" + link + ">Click here to verify</a>"
 	};
-	smtpTransport.sendMail(mailOptions, function (error, response) {
+	smtpconfig().sendMail(mailOptions, function (error, response) {
 		if (error) {
 			//	console.log(error);
 			res.end("error " + error);
@@ -1697,14 +1784,14 @@ function sendMail(req, res, name) {
 	var result = data.replace(/replaceurl/g, link);
 	result = result.replace(/replacename/g, name);
 	mailOptions = {
-		//from: 'no-reply@trsts.co',
+		from: 'no-reply@trsts.co',
 		to: req.session.email,
 		subject: "Reset Password",
 		html: result
 		// html: result + "<br>or<a href=" + link + ">Click here to verify</a>"
 	};
 	//console.log(mailOptions);
-	smtpTransport.sendMail(mailOptions, function (error, response) {
+	smtpconfig().sendMail(mailOptions, function (error, response) {
 		if (error) {
 			console.log(error);
 			res.end("error");

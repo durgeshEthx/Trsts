@@ -54,7 +54,7 @@
                       </div>
                       
                       <div class="user-actions">
-                        <a id="iagree" href="/test" class="mr-2 mb-2 btn btn-outline-primary btn-lg" type="button"> I AGREE</a>
+                        <button id="iagree"  class="mr-2 mb-2 btn btn-outline-primary btn-lg" type="button"> I AGREE</button>
                       </div>
                       
                     </div>
@@ -65,10 +65,16 @@
                       <div class="chat-content" style="height:1000px;">
                         
                         <div class="chat-date-separator">
-                          <span>Trsts ID: 32HTU5KKSU8SND9HSN3U0</span>
+                          <span id="trstsid">Trsts ID: 32HTU5KKSU8SND9HSN3U0</span>
                         </div>
                         
-                        
+                        <h4 id="doctitle" class="customer-name">
+                         
+                         </h4>
+                         <div id="docdes"class="customer-tickets">
+                           
+                         </div>  
+                           <img id="image" src="" />
                       </div>
                     </div>
                     
@@ -120,6 +126,33 @@
       
       // ga('create', 'UA-XXXXXXX-9', 'auto');
       // ga('send', 'pageview');
+$(document).ready(function () {
+  
+});
+
+$('#iagree').on('click', function (){
+  console.log('ffefefe')
+  $('.chat-head').css('display','none');
+  $('.alert.alert-success.alert-dismissible.fade.show').css('display','none');
+  $.ajax({
+        type: 'POST',
+        url: '/test',
+        data: { },
+        dataType: "json",
+        success: function (response) {
+          $('#trstsid').text(response.trstsid);
+          $('#docdes').text(response.description);
+          $('#doctitle').text(response.title);
+          $('#image').attr('src',response.location);
+          
+        }
+
+      });
+})
+
+
+
     </script>
+    
   </body>
 </html>
